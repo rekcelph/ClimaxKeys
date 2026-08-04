@@ -45,9 +45,19 @@
             --scanline-alpha: 0.06;
         }
 
-        * { box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        html, body { margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
 
         body {
             background-color: var(--bg);
@@ -56,7 +66,7 @@
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            padding: 40px 16px 60px;
+            padding: 90px 16px 60px;
             -webkit-font-smoothing: none;
             position: relative;
             overflow-x: hidden;
@@ -67,7 +77,7 @@
             content: '';
             position: fixed;
             inset: 0;
-            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,var(--scanline-alpha)) 2px, rgba(0,0,0,var(--scanline-alpha)) 4px);
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, var(--scanline-alpha)) 2px, rgba(0, 0, 0, var(--scanline-alpha)) 4px);
             pointer-events: none;
             z-index: 9999;
         }
@@ -77,18 +87,44 @@
             content: '';
             position: fixed;
             inset: 0;
-            background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.55) 100%);
+            background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.55) 100%);
             pointer-events: none;
             z-index: 9998;
         }
 
         @keyframes crt-flicker {
-            0% { opacity: 1; } 3% { opacity: 0.97; } 6% { opacity: 1; }
-            92% { opacity: 1; } 95% { opacity: 0.98; } 100% { opacity: 1; }
-        }
-        body { animation: crt-flicker 4s infinite; }
+            0% {
+                opacity: 1;
+            }
 
-        .hidden { display: none !important; }
+            3% {
+                opacity: 0.97;
+            }
+
+            6% {
+                opacity: 1;
+            }
+
+            92% {
+                opacity: 1;
+            }
+
+            95% {
+                opacity: 0.98;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        body {
+            animation: crt-flicker 4s infinite;
+        }
+
+        .hidden {
+            display: none !important;
+        }
 
         #app {
             width: 100%;
@@ -97,91 +133,71 @@
             z-index: 1;
         }
 
-        /* ═══════════════════════════════════════════════════
-           HEADER
-           ═══════════════════════════════════════════════════ */
-        header {
-            text-align: center;
-            margin-bottom: 28px;
-            padding: 20px 0 16px;
+
+        /* ── Fixed Top Bar ───────────────────────────────── */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: rgba(12, 12, 12, 0.95);
             border-bottom: 2px solid var(--border-bright);
-            position: relative;
-        }
-
-        .title {
-            font-family: var(--font-pixel);
-            font-weight: 400;
-            font-size: 28px;
-            letter-spacing: 4px;
-            margin: 0;
-            color: var(--green);
-            text-shadow: 0 0 10px var(--green-dim), 0 0 20px var(--green-glow), 0 0 40px var(--green-glow);
-        }
-        .title::before { content: '> '; color: var(--amber); text-shadow: 0 0 8px var(--amber-dim); }
-
-        .tagline {
-            margin: 10px 0 14px;
-            color: var(--text-dim);
-            font-family: var(--font-terminal);
-            font-size: 20px;
-            letter-spacing: 1px;
-        }
-        .tagline::before { content: 'C:\\> '; color: var(--amber); }
-
-        .title-block {
             display: flex;
-            justify-content: center;
-            gap: 28px;
-            border-top: 1px dashed var(--border);
-            padding-top: 10px;
-            margin: 0 auto;
-            max-width: 500px;
-            font-family: var(--font-terminal);
-            font-size: 18px;
-            letter-spacing: 2px;
-            color: var(--text-dim);
-            text-transform: uppercase;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 1000;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
         }
-        .title-block span::before { content: '[ '; color: var(--border-bright); }
-        .title-block span::after { content: ' ]'; color: var(--border-bright); }
 
-        /* ── Power LED ───────────────────────────────────── */
-        header::after {
-            content: '●';
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            font-size: 10px;
+        .top-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-brand {
+            font-family: var(--font-pixel);
+            font-size: 14px;
             color: var(--green);
-            text-shadow: 0 0 6px var(--green), 0 0 12px var(--green-dim);
-            animation: led-pulse 2s ease-in-out infinite;
+            text-shadow: 0 0 10px var(--green-dim);
+            margin: 0;
         }
-        @keyframes led-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
 
-        /* ── Nav Links ───────────────────────────────────── */
+        .nav-brand::before {
+            content: '> ';
+            color: var(--amber);
+        }
+
         .nav-links {
             display: flex;
-            gap: 6px;
-            justify-content: center;
-            margin-top: 14px;
+            gap: 8px;
+            height: 60px;
         }
+
         .nav-link {
             font-family: var(--font-pixel);
-            font-size: 9px;
+            font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 1px;
             background: none;
-            border: 2px solid var(--border);
+            border: none;
+            border-bottom: 2px solid transparent;
             color: var(--text-dim);
-            padding: 8px 16px;
+            padding: 0 16px;
             cursor: pointer;
             transition: all 0.1s;
-            text-decoration: none;
+            height: 100%;
         }
-        .nav-link:hover, .nav-link.active {
-            border-color: var(--green);
+
+        .nav-link:hover,
+        .nav-link.active {
             color: var(--green);
+            border-bottom-color: var(--green);
             text-shadow: 0 0 8px var(--green-dim);
+            background: var(--green-glow);
         }
 
         /* ═══════════════════════════════════════════════════
@@ -200,10 +216,12 @@
             align-items: center;
             gap: 10px;
         }
+
         .section-header .section-num {
             color: var(--green);
             font-size: 10px;
         }
+
         .section-header::after {
             content: '';
             flex: 1;
@@ -216,15 +234,34 @@
            ═══════════════════════════════════════════════════ */
         .panel {
             background: var(--bg-panel);
-            border: 2px solid var(--border-bright);
+            border: 2px solid var(--green);
             padding: 24px 20px;
             margin: 0 0 8px;
-            box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
-            transition: border-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 0 15px var(--green-glow), inset 0 0 30px rgba(0, 0, 0, 0.5);
         }
-        .panel.active-section {
-            border-color: var(--green);
-            box-shadow: 0 0 15px var(--green-glow), inset 0 0 30px rgba(0,0,0,0.5);
+
+        /* ═══════════════════════════════════════════════════
+           VIEWS
+           ═══════════════════════════════════════════════════ */
+        .view {
+            display: none;
+            animation: view-fade-in 0.2s ease-out;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        @keyframes view-fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .hint {
@@ -235,7 +272,11 @@
             margin: 0 0 16px;
             letter-spacing: 1px;
         }
-        .hint::before { content: '// '; color: var(--border-bright); }
+
+        .hint::before {
+            content: '// ';
+            color: var(--border-bright);
+        }
 
         /* ═══════════════════════════════════════════════════
            KEY TEST
@@ -245,6 +286,7 @@
             gap: 20px;
             align-items: flex-start;
         }
+
         .keytest-info {
             flex: 0 0 160px;
             display: flex;
@@ -265,7 +307,7 @@
             font-size: 26px;
             color: var(--green);
             text-shadow: 0 0 10px var(--green-dim);
-            box-shadow: 0 0 20px var(--green-glow), inset 0 0 10px rgba(51,255,51,0.05);
+            box-shadow: 0 0 20px var(--green-glow), inset 0 0 10px rgba(51, 255, 51, 0.05);
             transition: border-color 0.15s, box-shadow 0.15s;
         }
 
@@ -277,7 +319,11 @@
             text-align: center;
             word-break: break-all;
         }
-        .last-key-code::before { content: 'code: '; color: var(--amber); }
+
+        .last-key-code::before {
+            content: 'code: ';
+            color: var(--amber);
+        }
 
         .tested-progress {
             text-align: center;
@@ -286,12 +332,16 @@
             font-size: 18px;
             margin: 0;
         }
+
         .tested-progress span {
             color: var(--green);
             text-shadow: 0 0 6px var(--green-dim);
         }
 
-        .keytest-keyboard-wrap { flex: 1; min-width: 0; }
+        .keytest-keyboard-wrap {
+            flex: 1;
+            min-width: 0;
+        }
 
         /* ═══════════════════════════════════════════════════
            KEYBOARD
@@ -301,10 +351,20 @@
             background: var(--bg-panel);
             border: 2px solid var(--border-bright);
             padding: 16px 14px;
-            box-shadow: inset 0 0 40px rgba(0,0,0,0.6);
+            box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.6);
         }
-        #keyboard { display: flex; flex-direction: column; gap: 4px; }
-        .kb-row { display: flex; gap: 4px; }
+
+        #keyboard {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .kb-row {
+            display: flex;
+            gap: 4px;
+        }
+
         .kb-key {
             height: 40px;
             border: 2px solid var(--border);
@@ -317,24 +377,27 @@
             position: relative;
             cursor: default;
             user-select: none;
-            background: linear-gradient(180deg, rgba(30,30,30,1) 0%, rgba(15,15,15,1) 100%);
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), inset 0 -2px 0 rgba(0,0,0,0.4), 0 2px 0 rgba(0,0,0,0.6);
+            background: linear-gradient(180deg, rgba(30, 30, 30, 1) 0%, rgba(15, 15, 15, 1) 100%);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), inset 0 -2px 0 rgba(0, 0, 0, 0.4), 0 2px 0 rgba(0, 0, 0, 0.6);
             transition: all 0.08s;
         }
+
         .kb-key.tested {
             border-color: var(--green);
             border-width: 1px;
             color: var(--text);
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), inset 0 -2px 0 rgba(0,0,0,0.4), 0 2px 0 rgba(0,0,0,0.6), 0 0 6px var(--green-glow);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), inset 0 -2px 0 rgba(0, 0, 0, 0.4), 0 2px 0 rgba(0, 0, 0, 0.6), 0 0 6px var(--green-glow);
         }
+
         .kb-key.pressed {
             background: var(--green);
             border-color: var(--green);
             color: var(--bg);
             transform: translateY(2px);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3), 0 0 15px var(--green-dim), 0 0 30px var(--green-glow);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 15px var(--green-dim), 0 0 30px var(--green-glow);
             text-shadow: none;
         }
+
         .kb-key.home-bump::after {
             content: '';
             position: absolute;
@@ -344,6 +407,7 @@
             background: currentColor;
             opacity: 0.5;
         }
+
         .reg-mark {
             position: absolute;
             color: var(--green);
@@ -353,32 +417,278 @@
             text-shadow: 0 0 4px var(--green-dim);
             opacity: 0.5;
         }
-        .reg-mark.tl { top: 2px; left: 4px; }
-        .reg-mark.tl::after { content: '┌'; }
-        .reg-mark.tr { top: 2px; right: 4px; }
-        .reg-mark.tr::after { content: '┐'; }
-        .reg-mark.bl { bottom: 2px; left: 4px; }
-        .reg-mark.bl::after { content: '└'; }
-        .reg-mark.br { bottom: 2px; right: 4px; }
-        .reg-mark.br::after { content: '┘'; }
+
+        .reg-mark.tl {
+            top: 2px;
+            left: 4px;
+        }
+
+        .reg-mark.tl::after {
+            content: '┌';
+        }
+
+        .reg-mark.tr {
+            top: 2px;
+            right: 4px;
+        }
+
+        .reg-mark.tr::after {
+            content: '┐';
+        }
+
+        .reg-mark.bl {
+            bottom: 2px;
+            left: 4px;
+        }
+
+        .reg-mark.bl::after {
+            content: '└';
+        }
+
+        .reg-mark.br {
+            bottom: 2px;
+            right: 4px;
+        }
+
+        .reg-mark.br::after {
+            content: '┘';
+        }
 
         /* ═══════════════════════════════════════════════════
            TYPING RACE
            ═══════════════════════════════════════════════════ */
-        .duration-row { display: flex; gap: 8px; justify-content: center; margin-bottom: 10px; }
-        .duration-btn {
+        /* ═══════════════════════════════════════════════════
+           TYPING CONFIG BAR
+           ═══════════════════════════════════════════════════ */
+        .typing-config-bar {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .config-group {
+            display: flex;
+            background: var(--bg-panel);
+            border: 2px solid var(--border);
+            padding: 4px;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .config-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-dim);
             font-family: var(--font-pixel);
             font-size: 10px;
-            background: var(--bg);
-            border: 2px solid var(--border);
-            color: var(--text-dim);
-            padding: 8px 18px;
+            padding: 8px 14px;
             cursor: pointer;
             transition: all 0.1s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .duration-btn.active { border-color: var(--amber); color: var(--amber); text-shadow: 0 0 6px var(--amber-dim); }
-        .duration-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-        .duration-btn:hover:not(.active):not(:disabled) { border-color: var(--border-bright); color: var(--text-bright); }
+
+        .config-btn:hover:not(:disabled) {
+            color: var(--green);
+            text-shadow: 0 0 6px var(--green-dim);
+        }
+
+        .config-btn.active {
+            color: var(--amber);
+            text-shadow: 0 0 6px var(--amber-dim);
+        }
+
+        .config-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* ── Modal Dialog ──────────────────────────────── */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+        
+        .modal-box {
+            background: var(--bg-panel);
+            border: 2px solid var(--green);
+            padding: 30px;
+            width: 450px;
+            max-width: 90%;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.15);
+            text-align: left;
+        }
+        
+        .modal-title {
+            color: var(--green);
+            margin: 0 0 20px 0;
+            font-size: 16px;
+            font-family: var(--font-pixel);
+            text-shadow: 0 0 8px var(--green-dim);
+        }
+        
+        .retro-input, .retro-textarea {
+            width: 100%;
+            background: var(--bg-dark);
+            border: 1px solid var(--green-dim);
+            color: var(--text);
+            font-family: var(--font-terminal);
+            font-size: 16px;
+            padding: 12px;
+            margin-bottom: 25px;
+            outline: none;
+            resize: vertical;
+        }
+        
+        .retro-input:focus, .retro-textarea:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 8px var(--green-dim);
+        }
+        
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+        
+        .retro-btn {
+            background: transparent;
+            border: 1px solid var(--green);
+            color: var(--green);
+            font-family: var(--font-pixel);
+            font-size: 14px;
+            padding: 10px 20px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.2s;
+        }
+        
+        .retro-btn:hover {
+            background: var(--green-dim);
+            color: var(--bg-dark);
+        }
+        
+        .retro-btn.primary {
+            background: var(--green);
+            color: var(--bg-dark);
+        }
+        
+        .retro-btn.primary:hover {
+            background: #00ff00;
+            box-shadow: 0 0 10px var(--green);
+        }
+
+        .modal-box.large {
+            width: 1000px;
+            max-width: 95vw;
+        }
+        
+        .prompt-advanced {
+            display: flex;
+            gap: 20px;
+            height: 60vh;
+            min-height: 450px;
+            margin-bottom: 25px;
+        }
+        
+        .prompt-advanced.hidden {
+            display: none !important;
+        }
+        
+        .pa-left {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .pa-right {
+            width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow-y: auto;
+            padding-right: 15px;
+        }
+        
+        .pa-right::-webkit-scrollbar {
+            width: 8px;
+        }
+        .pa-right::-webkit-scrollbar-track {
+            background: rgba(0, 255, 0, 0.05);
+        }
+        .pa-right::-webkit-scrollbar-thumb {
+            background: rgba(0, 255, 0, 0.3);
+            border-radius: 4px;
+        }
+        .pa-right::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 255, 0, 0.5);
+        }
+        
+        .pa-toolbar {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 5px;
+        }
+        
+        .retro-btn.small {
+            padding: 6px 12px;
+            font-size: 11px;
+            flex: 1;
+        }
+        
+        .retro-btn.block {
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .prompt-advanced .retro-textarea {
+            flex: 1;
+            margin-bottom: 0;
+            resize: none;
+        }
+        
+        .pa-section {
+            border-bottom: 1px dashed var(--border);
+            padding-bottom: 20px;
+        }
+        
+        .pa-label {
+            color: var(--green);
+            font-family: var(--font-pixel);
+            font-size: 11px;
+            margin-bottom: 8px;
+            text-shadow: 0 0 5px var(--green-dim);
+        }
+        
+        .pa-desc {
+            color: var(--text-dim);
+            font-family: var(--font-terminal);
+            font-size: 13px;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        
+        .pa-section .config-group {
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+
+        .config-btn .icon {
+            font-family: sans-serif;
+            font-size: 12px;
+            opacity: 0.7;
+        }
 
         .stats-row {
             display: flex;
@@ -389,9 +699,26 @@
             border-top: 1px dashed var(--border);
             border-bottom: 1px dashed var(--border);
         }
-        .stat { text-align: center; }
-        .stat-value { font-family: var(--font-pixel); font-size: 18px; color: var(--green); text-shadow: 0 0 8px var(--green-dim); }
-        .stat-label { font-family: var(--font-terminal); font-size: 15px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 2px; margin-top: 3px; }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: var(--font-pixel);
+            font-size: 18px;
+            color: var(--green);
+            text-shadow: 0 0 8px var(--green-dim);
+        }
+
+        .stat-label {
+            font-family: var(--font-terminal);
+            font-size: 15px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 3px;
+        }
 
         /* ── Combo / Streak ──────────────────────────────── */
         .game-bar {
@@ -401,28 +728,71 @@
             padding: 6px 12px;
             margin-bottom: 8px;
             border: 1px solid var(--border);
-            background: rgba(0,0,0,0.3);
+            background: rgba(0, 0, 0, 0.3);
             font-family: var(--font-terminal);
             font-size: 18px;
         }
-        .combo-display { color: var(--amber); }
-        .combo-display .combo-val { font-family: var(--font-pixel); font-size: 14px; }
-        .combo-display.fire { color: var(--red); text-shadow: 0 0 10px var(--red-dim); }
-        .combo-display.blazing { color: var(--magenta); text-shadow: 0 0 12px rgba(255,51,255,0.4); }
-        .streak-display { color: var(--cyan); }
-        .streak-display .streak-val { font-family: var(--font-pixel); font-size: 14px; }
-        .pb-display { color: var(--text-dim); font-size: 16px; }
-        .pb-display .pb-val { color: var(--amber); font-family: var(--font-pixel); font-size: 12px; }
+
+        .combo-display {
+            color: var(--amber);
+        }
+
+        .combo-display .combo-val {
+            font-family: var(--font-pixel);
+            font-size: 14px;
+        }
+
+        .combo-display.fire {
+            color: var(--red);
+            text-shadow: 0 0 10px var(--red-dim);
+        }
+
+        .combo-display.blazing {
+            color: var(--magenta);
+            text-shadow: 0 0 12px rgba(255, 51, 255, 0.4);
+        }
+
+        .streak-display {
+            color: var(--cyan);
+        }
+
+        .streak-display .streak-val {
+            font-family: var(--font-pixel);
+            font-size: 14px;
+        }
+
+        .pb-display {
+            color: var(--text-dim);
+            font-size: 16px;
+        }
+
+        .pb-display .pb-val {
+            color: var(--amber);
+            font-family: var(--font-pixel);
+            font-size: 12px;
+        }
 
         @keyframes combo-pop {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.3); }
-            100% { transform: scale(1); }
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.3);
+            }
+
+            100% {
+                transform: scale(1);
+            }
         }
-        .combo-pop { animation: combo-pop 0.2s ease-out; }
+
+        .combo-pop {
+            animation: combo-pop 0.2s ease-out;
+        }
 
         /* ── Words Display ───────────────────────────────── */
         .words-display {
+            position: relative;
             font-family: var(--font-terminal);
             font-size: 26px;
             line-height: 2;
@@ -430,29 +800,65 @@
             overflow: hidden;
             padding: 4px 8px;
             border: 1px solid var(--border);
-            background: rgba(0,0,0,0.3);
+            background: rgba(0, 0, 0, 0.3);
+            scroll-behavior: smooth;
         }
-        .word { display: inline-block; margin-right: 0.55em; }
-        .word.current { text-decoration: underline; text-underline-offset: 6px; text-decoration-color: var(--amber); text-decoration-thickness: 3px; }
-        .char { color: var(--text-dim); }
-        .char.correct { color: var(--correct); text-shadow: 0 0 4px var(--green-dim); }
-        .char.incorrect { color: var(--incorrect); text-decoration: underline wavy; text-shadow: 0 0 4px var(--red-dim); }
-        .char.missed { color: var(--incorrect); opacity: 0.5; text-decoration: underline; }
-        .char.extra { color: var(--incorrect); opacity: 0.7; font-style: italic; }
+
+        .word {
+            display: inline-block;
+            margin-right: 0.55em;
+        }
+
+        .word.current {}
+
+        .char {
+            color: var(--text-dim);
+        }
+
+        .char.correct {
+            color: var(--text-bright);
+            text-shadow: 0 0 4px var(--green-dim);
+        }
+
+        .char.incorrect {
+            color: var(--incorrect);
+            text-shadow: 0 0 4px var(--red-dim);
+        }
+
+        .char.missed {
+            color: var(--incorrect);
+            opacity: 0.5;
+        }
+
+        .char.extra {
+            color: var(--incorrect);
+            opacity: 0.7;
+        }
 
         .cursor {
             display: inline-block;
-            width: 14px;
-            height: 24px;
-            background: var(--green);
+            width: 2px;
+            height: 22px;
+            background: var(--amber);
             vertical-align: middle;
             margin: 0 -1px;
-            animation: block-blink 1s step-start infinite;
-            box-shadow: 0 0 6px var(--green-dim);
+            animation: caret-blink 1s step-start infinite;
+            box-shadow: 0 0 6px var(--amber-dim);
         }
-        @keyframes block-blink { 50% { opacity: 0; } }
 
-        .restart-row { text-align: center; margin-top: 12px; display: flex; gap: 10px; justify-content: center; }
+        @keyframes caret-blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .restart-row {
+            text-align: center;
+            margin-top: 12px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
 
         .btn {
             font-family: var(--font-pixel);
@@ -466,44 +872,45 @@
             text-transform: uppercase;
             transition: all 0.1s;
         }
-        .btn:hover { border-color: var(--green); color: var(--green); text-shadow: 0 0 8px var(--green-dim); box-shadow: 0 0 10px var(--green-glow); }
-        .btn.primary { background: var(--green); border-color: var(--green); color: var(--bg); text-shadow: none; }
-        .btn.primary:hover { background: var(--text-bright); box-shadow: 0 0 20px var(--green-dim); }
-        .btn.amber { border-color: var(--amber); color: var(--amber); }
-        .btn.amber:hover { background: var(--amber); color: var(--bg); text-shadow: none; }
 
-        /* ── Countdown Overlay ───────────────────────────── */
-        .countdown-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.85);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 5000;
-        }
-        .countdown-num {
-            font-family: var(--font-pixel);
-            font-size: 120px;
+        .btn:hover {
+            border-color: var(--green);
             color: var(--green);
-            text-shadow: 0 0 40px var(--green-dim), 0 0 80px var(--green-glow);
-            animation: count-pulse 0.8s ease-out;
+            text-shadow: 0 0 8px var(--green-dim);
+            box-shadow: 0 0 10px var(--green-glow);
         }
-        .countdown-go {
-            font-family: var(--font-pixel);
-            font-size: 60px;
+
+        .btn.primary {
+            background: var(--green);
+            border-color: var(--green);
+            color: var(--bg);
+            text-shadow: none;
+        }
+
+        .btn.primary:hover {
+            background: var(--text-bright);
+            box-shadow: 0 0 20px var(--green-dim);
+        }
+
+        .btn.amber {
+            border-color: var(--amber);
             color: var(--amber);
-            text-shadow: 0 0 40px var(--amber-dim);
-            animation: count-pulse 0.5s ease-out;
         }
-        @keyframes count-pulse {
-            0% { transform: scale(2); opacity: 0; }
-            50% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(0.95); opacity: 1; }
+
+        .btn.amber:hover {
+            background: var(--amber);
+            color: var(--bg);
+            text-shadow: none;
         }
+
+
 
         /* ── Results ─────────────────────────────────────── */
-        .results { text-align: center; padding: 16px 0 4px; }
+        .results {
+            text-align: center;
+            padding: 16px 0 4px;
+        }
+
         .results::before {
             content: '══════ RESULTS ══════';
             display: block;
@@ -514,9 +921,33 @@
             margin-bottom: 16px;
             text-shadow: 0 0 8px var(--amber-dim);
         }
-        .results-wpm { font-family: var(--font-pixel); font-size: 48px; color: var(--green); line-height: 1; text-shadow: 0 0 15px var(--green-dim), 0 0 30px var(--green-glow); }
-        .results-label { color: var(--text-dim); font-family: var(--font-terminal); font-size: 20px; text-transform: uppercase; letter-spacing: 2px; margin: 8px 0 12px; }
-        .results-stats { display: flex; justify-content: center; gap: 40px; margin-bottom: 20px; padding: 12px 0; border-top: 1px dashed var(--border); border-bottom: 1px dashed var(--border); }
+
+        .results-wpm {
+            font-family: var(--font-pixel);
+            font-size: 48px;
+            color: var(--green);
+            line-height: 1;
+            text-shadow: 0 0 15px var(--green-dim), 0 0 30px var(--green-glow);
+        }
+
+        .results-label {
+            color: var(--text-dim);
+            font-family: var(--font-terminal);
+            font-size: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 8px 0 12px;
+        }
+
+        .results-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 20px;
+            padding: 12px 0;
+            border-top: 1px dashed var(--border);
+            border-bottom: 1px dashed var(--border);
+        }
 
         /* ── Rank Badge ──────────────────────────────────── */
         .rank-badge {
@@ -528,22 +959,91 @@
             margin: 8px 0 16px;
             letter-spacing: 4px;
         }
-        .rank-F { color: var(--red); border-color: var(--red); text-shadow: 0 0 10px var(--red-dim); }
-        .rank-D { color: #ff8833; border-color: #ff8833; text-shadow: 0 0 10px rgba(255,136,51,0.4); }
-        .rank-C { color: var(--amber); border-color: var(--amber); text-shadow: 0 0 10px var(--amber-dim); }
-        .rank-B { color: var(--cyan); border-color: var(--cyan); text-shadow: 0 0 10px var(--cyan-dim); }
-        .rank-A { color: var(--green); border-color: var(--green); text-shadow: 0 0 15px var(--green-dim); }
-        .rank-S { color: var(--magenta); border-color: var(--magenta); text-shadow: 0 0 15px rgba(255,51,255,0.4); }
-        .rank-SS { color: #ffff33; border-color: #ffff33; text-shadow: 0 0 20px rgba(255,255,51,0.5); animation: rank-glow 1s ease-in-out infinite alternate; }
-        @keyframes rank-glow { 0% { filter: brightness(1); } 100% { filter: brightness(1.3); } }
 
-        .new-record { color: var(--amber); font-family: var(--font-pixel); font-size: 14px; letter-spacing: 2px; margin: 8px 0; animation: record-flash 0.5s ease-in-out infinite alternate; }
-        @keyframes record-flash { 0% { opacity: 1; } 100% { opacity: 0.4; } }
+        .rank-F {
+            color: var(--red);
+            border-color: var(--red);
+            text-shadow: 0 0 10px var(--red-dim);
+        }
+
+        .rank-D {
+            color: #ff8833;
+            border-color: #ff8833;
+            text-shadow: 0 0 10px rgba(255, 136, 51, 0.4);
+        }
+
+        .rank-C {
+            color: var(--amber);
+            border-color: var(--amber);
+            text-shadow: 0 0 10px var(--amber-dim);
+        }
+
+        .rank-B {
+            color: var(--cyan);
+            border-color: var(--cyan);
+            text-shadow: 0 0 10px var(--cyan-dim);
+        }
+
+        .rank-A {
+            color: var(--green);
+            border-color: var(--green);
+            text-shadow: 0 0 15px var(--green-dim);
+        }
+
+        .rank-S {
+            color: var(--magenta);
+            border-color: var(--magenta);
+            text-shadow: 0 0 15px rgba(255, 51, 255, 0.4);
+        }
+
+        .rank-SS {
+            color: #ffff33;
+            border-color: #ffff33;
+            text-shadow: 0 0 20px rgba(255, 255, 51, 0.5);
+            animation: rank-glow 1s ease-in-out infinite alternate;
+        }
+
+        @keyframes rank-glow {
+            0% {
+                filter: brightness(1);
+            }
+
+            100% {
+                filter: brightness(1.3);
+            }
+        }
+
+        .new-record {
+            color: var(--amber);
+            font-family: var(--font-pixel);
+            font-size: 14px;
+            letter-spacing: 2px;
+            margin: 8px 0;
+            animation: record-flash 0.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes record-flash {
+            0% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.4;
+            }
+        }
 
         /* ═══════════════════════════════════════════════════
            MULTIPLAYER ARENA
            ═══════════════════════════════════════════════════ */
-        .mp-controls { display: flex; gap: 10px; justify-content: center; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
+        .mp-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
         .mp-input {
             font-family: var(--font-terminal);
             font-size: 20px;
@@ -554,8 +1054,15 @@
             width: 160px;
             outline: none;
         }
-        .mp-input:focus { border-color: var(--green); box-shadow: 0 0 8px var(--green-glow); }
-        .mp-input::placeholder { color: var(--text-dim); }
+
+        .mp-input:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 8px var(--green-glow);
+        }
+
+        .mp-input::placeholder {
+            color: var(--text-dim);
+        }
 
         .mp-room-info {
             text-align: center;
@@ -564,6 +1071,7 @@
             color: var(--text-dim);
             margin-bottom: 12px;
         }
+
         .mp-room-code {
             font-family: var(--font-pixel);
             font-size: 18px;
@@ -572,7 +1080,12 @@
             letter-spacing: 4px;
         }
 
-        .mp-player-list { margin: 0 0 16px; padding: 0; list-style: none; }
+        .mp-player-list {
+            margin: 0 0 16px;
+            padding: 0;
+            list-style: none;
+        }
+
         .mp-player {
             display: flex;
             align-items: center;
@@ -582,8 +1095,18 @@
             font-family: var(--font-terminal);
             font-size: 20px;
         }
-        .mp-player.you { color: var(--green); }
-        .mp-player-name { width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        .mp-player.you {
+            color: var(--green);
+        }
+
+        .mp-player-name {
+            width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
         .mp-player-bar-wrap {
             flex: 1;
             height: 16px;
@@ -591,15 +1114,34 @@
             background: var(--bg);
             position: relative;
         }
+
         .mp-player-bar {
             height: 100%;
             background: var(--green);
             transition: width 0.3s;
             box-shadow: 0 0 6px var(--green-dim);
         }
-        .mp-player.bot .mp-player-bar { background: var(--amber); box-shadow: 0 0 6px var(--amber-dim); }
-        .mp-player-wpm { width: 80px; text-align: right; font-family: var(--font-pixel); font-size: 12px; color: var(--text-dim); }
-        .mp-player-rank { width: 24px; text-align: center; color: var(--amber); font-family: var(--font-pixel); font-size: 10px; }
+
+        .mp-player.bot .mp-player-bar {
+            background: var(--amber);
+            box-shadow: 0 0 6px var(--amber-dim);
+        }
+
+        .mp-player-wpm {
+            width: 80px;
+            text-align: right;
+            font-family: var(--font-pixel);
+            font-size: 12px;
+            color: var(--text-dim);
+        }
+
+        .mp-player-rank {
+            width: 24px;
+            text-align: center;
+            color: var(--amber);
+            font-family: var(--font-pixel);
+            font-size: 10px;
+        }
 
         .mp-winner {
             text-align: center;
@@ -612,6 +1154,7 @@
         }
 
         .mp-words-display {
+            position: relative;
             font-family: var(--font-terminal);
             font-size: 24px;
             line-height: 2;
@@ -619,16 +1162,13 @@
             overflow: hidden;
             padding: 4px 8px;
             border: 1px solid var(--border);
-            background: rgba(0,0,0,0.3);
+            background: rgba(0, 0, 0, 0.3);
             margin-bottom: 8px;
+            scroll-behavior: smooth;
         }
 
         /* ── Sound Toggle ────────────────────────────────── */
         .sound-toggle {
-            position: fixed;
-            top: 12px;
-            right: 12px;
-            z-index: 100;
             font-family: var(--font-terminal);
             font-size: 22px;
             background: none;
@@ -638,8 +1178,16 @@
             cursor: pointer;
             transition: all 0.1s;
         }
-        .sound-toggle:hover { border-color: var(--green); color: var(--green); }
-        .sound-toggle.on { color: var(--green); border-color: var(--green); }
+
+        .sound-toggle:hover {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        .sound-toggle.on {
+            color: var(--green);
+            border-color: var(--green);
+        }
 
         /* ═══════════════════════════════════════════════════
            FOOTER
@@ -655,162 +1203,303 @@
             border-top: 1px dashed var(--border);
         }
 
-        button:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+        button:focus-visible {
+            outline: 2px solid var(--amber);
+            outline-offset: 2px;
+        }
 
         /* ═══════════════════════════════════════════════════
            RESPONSIVE
            ═══════════════════════════════════════════════════ */
         @media (max-width: 700px) {
-            .title { font-size: 16px; letter-spacing: 2px; }
-            .tagline { font-size: 16px; }
-            .keytest-layout { flex-direction: column; }
-            .keytest-info { flex: none; flex-direction: row; flex-wrap: wrap; justify-content: center; }
-            .last-key-box { width: 70px; height: 70px; font-size: 18px; }
-            .nav-link { font-size: 7px; padding: 6px 10px; }
-            .words-display, .mp-words-display { font-size: 20px; }
-            .kb-key { font-size: 10px; height: 32px; }
-            .results-wpm { font-size: 32px; }
-            .stats-row, .results-stats { gap: 20px; }
-            #keyboardSection { padding: 10px 6px; }
-            .kb-row, #keyboard { gap: 3px; }
-            .stat-value { font-size: 14px; }
-            .duration-btn { font-size: 8px; padding: 6px 12px; }
-            .rank-badge { font-size: 24px; }
-            .countdown-num { font-size: 80px; }
-            .game-bar { flex-wrap: wrap; gap: 4px; font-size: 15px; }
-            .mp-player-name { width: 80px; }
+            .keytest-layout {
+                flex-direction: column;
+            }
+
+            .keytest-info {
+                flex: none;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .last-key-box {
+                width: 70px;
+                height: 70px;
+                font-size: 18px;
+            }
+
+            .nav-link {
+                font-size: 8px;
+                padding: 0 8px;
+            }
+
+            .nav-brand {
+                display: none;
+            }
+
+            /* Hide brand text on mobile */
+            .words-display,
+            .mp-words-display {
+                font-size: 20px;
+            }
+
+            .kb-key {
+                font-size: 10px;
+                height: 32px;
+            }
+
+            .results-wpm {
+                font-size: 32px;
+            }
+
+            .stats-row,
+            .results-stats {
+                gap: 20px;
+            }
+
+            #keyboardSection {
+                padding: 10px 6px;
+            }
+
+            .kb-row,
+            #keyboard {
+                gap: 3px;
+            }
+
+            .stat-value {
+                font-size: 14px;
+            }
+
+            .duration-btn {
+                font-size: 8px;
+                padding: 6px 12px;
+            }
+
+            .typing-config-bar {
+                gap: 8px;
+                margin-bottom: 15px;
+            }
+
+            .config-btn {
+                font-size: 8px;
+                padding: 6px 8px;
+            }
+
+            .rank-badge {
+                font-size: 24px;
+            }
+
+            .countdown-num {
+                font-size: 80px;
+            }
+
+            .game-bar {
+                flex-wrap: wrap;
+                gap: 4px;
+                font-size: 15px;
+            }
+
+            .mp-player-name {
+                width: 80px;
+            }
         }
 
         @media (prefers-reduced-motion: reduce) {
-            * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
-            body::after { display: none; }
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            body::after {
+                display: none;
+            }
         }
     </style>
 </head>
 
 <body>
-    <button class="sound-toggle" id="soundToggle" title="Toggle sound">🔇</button>
+    <nav class="top-bar">
+        <div class="top-bar-left">
+            <div class="nav-brand">CLIMAX_KEYS</div>
+            <div class="nav-links">
+                <button class="nav-link active" data-target="view-keytest">01 Key Test</button>
+                <button class="nav-link" data-target="view-typing">02 Speed Test</button>
+                <button class="nav-link" data-target="view-mp">03 Multiplayer</button>
+            </div>
+        </div>
+        <button class="sound-toggle" id="soundToggle" title="Toggle sound">🔇</button>
+    </nav>
 
     <div id="app">
-        <header>
-            <h1 class="title">CLIMAX_KEYS</h1>
-            <p class="tagline">keyboard blueprint &amp; typing speed test</p>
-            <div class="title-block">
-                <span>Scale 1:1</span>
-                <span>QWERTY</span>
-                <span>v2.0</span>
-            </div>
-            <div class="nav-links">
-                <a class="nav-link" href="#section-keytest">01 Key Test</a>
-                <a class="nav-link" href="#section-typing">02 Typing Race</a>
-                <a class="nav-link" href="#section-mp">03 Multiplayer</a>
-            </div>
-        </header>
 
         <!-- ══════════════════════════════════════════════════
              SECTION 1: KEY TEST
              ══════════════════════════════════════════════════ -->
-        <div class="section-header" id="section-keytest">
-            <span class="section-num">01</span> KEY TEST
-        </div>
-        <div class="panel" id="keytestPanel">
-            <p class="hint">Press any key — it'll trace onto the diagram below.</p>
-            <div class="keytest-layout">
-                <div class="keytest-info">
-                    <div class="last-key-box" id="lastKeyBox">–</div>
-                    <div class="last-key-code" id="lastKeyCode">waiting</div>
-                    <p class="tested-progress">traced: <span id="testedCount">0</span>/<span id="totalKeyCount">0</span></p>
-                </div>
-                <div class="keytest-keyboard-wrap">
-                    <div id="keyboardSection">
-                        <div class="reg-mark tl"></div>
-                        <div class="reg-mark tr"></div>
-                        <div class="reg-mark bl"></div>
-                        <div class="reg-mark br"></div>
-                        <div id="keyboard"></div>
+        <div class="view active" id="view-keytest">
+            <div class="section-header">
+                <span class="section-num">01</span> KEY TEST
+            </div>
+            <div class="panel" id="keytestPanel">
+                <p class="hint">Press any key — it'll trace onto the diagram below.</p>
+                <div class="keytest-layout">
+                    <div class="keytest-info">
+                        <div class="last-key-box" id="lastKeyBox">–</div>
+                        <div class="last-key-code" id="lastKeyCode">waiting</div>
+                        <p class="tested-progress">traced: <span id="testedCount">0</span>/<span
+                                id="totalKeyCount">0</span></p>
+                    </div>
+                    <div class="keytest-keyboard-wrap">
+                        <div id="keyboardSection">
+                            <div class="reg-mark tl"></div>
+                            <div class="reg-mark tr"></div>
+                            <div class="reg-mark bl"></div>
+                            <div class="reg-mark br"></div>
+                            <div id="keyboard"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- ══════════════════════════════════════════════════
-             SECTION 2: TYPING RACE
+             SECTION 2: SPEED TEST
              ══════════════════════════════════════════════════ -->
-        <div class="section-header" id="section-typing">
-            <span class="section-num">02</span> TYPING RACE
-        </div>
-        <div class="panel" id="typingPanel">
-            <div class="duration-row" id="durationRow"></div>
-            <p class="hint">pick a duration, then start typing to begin</p>
-            <div class="stats-row" id="typingStats">
-                <div class="stat"><div class="stat-value" id="statTime">30</div><div class="stat-label">seconds</div></div>
-                <div class="stat"><div class="stat-value" id="statWpm">0</div><div class="stat-label">wpm</div></div>
-                <div class="stat"><div class="stat-value" id="statAcc">100%</div><div class="stat-label">accuracy</div></div>
+        <div class="view" id="view-typing">
+            <div class="section-header">
+                <span class="section-num">02</span> SPEED TEST
             </div>
-            <div class="game-bar" id="gameBar">
-                <div class="combo-display">COMBO: <span class="combo-val" id="comboVal">×1</span></div>
-                <div class="streak-display">STREAK: <span class="streak-val" id="streakVal">0</span></div>
-                <div class="pb-display">BEST: <span class="pb-val" id="pbVal">--</span> WPM</div>
-            </div>
-            <div class="words-display" id="wordsDisplay"></div>
-            <div class="restart-row">
-                <button class="btn" id="restartBtn">Restart</button>
-            </div>
-
-            <div class="results hidden" id="resultsPanel">
-                <div class="results-wpm" id="resultsWpm">0</div>
-                <div class="results-label">words per minute</div>
-                <div id="rankBadge"></div>
-                <div id="newRecordMsg"></div>
-                <div class="results-stats">
-                    <div class="stat"><div class="stat-value" id="resultsAcc">0%</div><div class="stat-label">accuracy</div></div>
-                    <div class="stat"><div class="stat-value" id="resultsChars">0</div><div class="stat-label">characters</div></div>
-                    <div class="stat"><div class="stat-value" id="resultsStreak">0</div><div class="stat-label">best streak</div></div>
-                    <div class="stat"><div class="stat-value" id="resultsCombo">×1</div><div class="stat-label">max combo</div></div>
+            <div class="panel" id="typingPanel">
+                <div class="typing-config-bar">
+                    <div class="config-group" id="configModifiers">
+                        <button class="config-btn" data-mod="punctuation"><span class="icon">@</span> punctuation</button>
+                        <button class="config-btn" data-mod="numbers"><span class="icon">#</span> numbers</button>
+                    </div>
+                    <div class="config-group" id="configModes">
+                        <button class="config-btn active" data-mode="time"><span class="icon">⏱</span> time</button>
+                        <button class="config-btn" data-mode="words"><span class="icon">A</span> words</button>
+                        <button class="config-btn disabled" data-mode="quote" title="Coming soon"><span class="icon">"</span> quote</button>
+                        <button class="config-btn disabled" data-mode="zen" title="Coming soon"><span class="icon">⛰</span> zen</button>
+                        <button class="config-btn" data-mode="custom"><span class="icon">🛠</span> custom</button>
+                    </div>
+                    <div class="config-group" id="durationRow"></div>
                 </div>
-                <button class="btn primary" id="tryAgainBtn">Try again</button>
+                <p class="hint">pick a duration, then start typing to begin</p>
+                <div class="stats-row" id="typingStats">
+                    <div class="stat">
+                        <div class="stat-value" id="statTime">30</div>
+                        <div class="stat-label">seconds</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="statWpm">0</div>
+                        <div class="stat-label">wpm</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="statAcc">100%</div>
+                        <div class="stat-label">accuracy</div>
+                    </div>
+                </div>
+                <div class="game-bar" id="gameBar">
+                    <div class="combo-display">COMBO: <span class="combo-val" id="comboVal">×1</span></div>
+                    <div class="streak-display">STREAK: <span class="streak-val" id="streakVal">0</span></div>
+                    <div class="pb-display">BEST: <span class="pb-val" id="pbVal">--</span> WPM</div>
+                </div>
+                <div class="words-display" id="wordsDisplay"></div>
+                <div class="restart-row">
+                    <button class="btn" id="restartBtn">Restart</button>
+                </div>
+
+                <div class="results hidden" id="resultsPanel">
+                    <div class="results-wpm" id="resultsWpm">0</div>
+                    <div class="results-label">words per minute</div>
+                    <div id="rankBadge"></div>
+                    <div id="newRecordMsg"></div>
+                    <div class="results-stats">
+                        <div class="stat">
+                            <div class="stat-value" id="resultsAcc">0%</div>
+                            <div class="stat-label">accuracy</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value" id="resultsChars">0</div>
+                            <div class="stat-label">characters</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value" id="resultsStreak">0</div>
+                            <div class="stat-label">best streak</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value" id="resultsCombo">×1</div>
+                            <div class="stat-label">max combo</div>
+                        </div>
+                    </div>
+                    <button class="btn primary" id="tryAgainBtn">Try again</button>
+                </div>
             </div>
         </div>
 
         <!-- ══════════════════════════════════════════════════
              SECTION 3: MULTIPLAYER ARENA
              ══════════════════════════════════════════════════ -->
-        <div class="section-header" id="section-mp">
-            <span class="section-num">03</span> MULTIPLAYER ARENA
-        </div>
-        <div class="panel" id="mpPanel">
-            <p class="hint">race against bots (or real players with server)</p>
-
-            <!-- Lobby state -->
-            <div id="mpLobby">
-                <div class="mp-controls">
-                    <input class="mp-input" id="mpName" type="text" placeholder="Your name" maxlength="12" value="Player">
-                    <button class="btn amber" id="mpStartBtn">Start Race vs Bots</button>
-                </div>
-                <div class="mp-controls">
-                    <div class="duration-row" id="mpDurationRow"></div>
-                </div>
+        <div class="view" id="view-mp">
+            <div class="section-header">
+                <span class="section-num">03</span> MULTIPLAYER ARENA
             </div>
+            <div class="panel" id="mpPanel">
+                <p class="hint">race against bots (or real players with server)</p>
 
-            <!-- Racing state -->
-            <div id="mpRacing" class="hidden">
-                <div class="mp-room-info">
-                    ROOM: <span class="mp-room-code" id="mpRoomCode">LOCAL</span>
-                    &nbsp;│&nbsp; <span id="mpTimeLeft">30</span>s remaining
+                <!-- Lobby state -->
+                <div id="mpLobby">
+                    <div class="mp-controls">
+                        <input class="mp-input" id="mpName" type="text" placeholder="Your name" maxlength="12">
+                    </div>
+                    <div class="mp-controls" style="margin-top: 15px;">
+                        <button class="btn amber" id="mpCreateBtn">Create Room</button>
+                    </div>
+                    <div class="mp-controls" style="margin-top: 15px;">
+                        <input class="mp-input" id="mpCode" type="text" placeholder="CODE" maxlength="4"
+                            style="width:100px; text-transform:uppercase; text-align:center;">
+                        <button class="btn" id="mpJoinBtn">Join Room</button>
+                    </div>
                 </div>
-                <ul class="mp-player-list" id="mpPlayerList"></ul>
-                <div class="mp-words-display" id="mpWordsDisplay"></div>
-                <div class="restart-row">
-                    <button class="btn" id="mpRestartBtn">Leave Race</button>
-                </div>
-            </div>
 
-            <!-- Finished state -->
-            <div id="mpResults" class="hidden">
-                <div class="mp-winner" id="mpWinnerMsg"></div>
-                <ul class="mp-player-list" id="mpResultsList"></ul>
-                <div class="restart-row">
-                    <button class="btn primary" id="mpPlayAgainBtn">Race Again</button>
+                <!-- Waiting Room state -->
+                <div id="mpWaiting" class="hidden">
+                    <div class="mp-room-info">
+                        ROOM CODE: <span class="mp-room-code" id="mpWaitingCode"></span>
+                    </div>
+                    <p class="hint">Waiting for players...</p>
+                    <ul class="mp-player-list" id="mpWaitingPlayers"></ul>
+                    <div class="restart-row">
+                        <button class="btn" id="mpWaitingLeaveBtn">Leave Room</button>
+                        <span id="mpHostControls" class="hidden">
+                            <button class="btn" id="mpAddBotBtn">Add Bot</button>
+                            <button class="btn primary" id="mpStartBtn">Start Race</button>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Racing state -->
+                <div id="mpRacing" class="hidden">
+                    <div class="mp-room-info">
+                        ROOM: <span class="mp-room-code" id="mpRoomCode"></span>
+                        <span id="mpCountdownMsg" style="color:var(--amber); margin-left:15px;"></span>
+                        &nbsp;│&nbsp; <span id="mpTimeLeft">30</span>s remaining
+                    </div>
+                    <ul class="mp-player-list" id="mpPlayerList"></ul>
+                    <div class="mp-words-display" id="mpWordsDisplay"></div>
+                    <div class="restart-row">
+                        <button class="btn" id="mpLeaveBtn">Leave Race</button>
+                    </div>
+                </div>
+
+                <!-- Finished state -->
+                <div id="mpResults" class="hidden">
+                    <div class="mp-winner" id="mpWinnerMsg"></div>
+                    <ul class="mp-player-list" id="mpResultsList"></ul>
+                    <div class="restart-row">
+                        <button class="btn primary" id="mpPlayAgainBtn">Leave to Lobby</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -818,950 +1507,1320 @@
         <footer>READY. &nbsp;│&nbsp; SYS OK &nbsp;│&nbsp; PHYSICAL KB RECOMMENDED</footer>
     </div>
 
-    <!-- ── Countdown Overlay ─────────────────────────────── -->
-    <div class="countdown-overlay hidden" id="countdownOverlay">
-        <div id="countdownContent"></div>
+    <!-- Custom Prompt Modal -->
+    <div id="promptModal" class="modal-overlay hidden">
+        <div id="modalBox" class="modal-box retro-panel">
+            <h3 id="promptTitle" class="modal-title">Enter value</h3>
+            
+            <input type="text" id="promptInput" class="retro-input hidden" autocomplete="off">
+            
+            <div id="promptAdvanced" class="prompt-advanced hidden">
+                <div class="pa-left">
+                    <div class="pa-toolbar">
+                        <button class="retro-btn small"><span class="icon">💾</span> SAVE</button>
+                        <button class="retro-btn small"><span class="icon">📁</span> SAVED TEXTS</button>
+                    </div>
+                    <textarea id="promptTextarea" class="retro-textarea" placeholder="Paste or type custom text here..."></textarea>
+                </div>
+                <div class="pa-right">
+                    <div class="pa-section">
+                        <div class="pa-label">MODE</div>
+                        <div class="pa-desc">Change the way words are generated.</div>
+                        <div class="config-group">
+                            <button class="config-btn active">simple</button>
+                            <button class="config-btn disabled">repeat</button>
+                            <button class="config-btn disabled">shuffle</button>
+                            <button class="config-btn disabled">random</button>
+                        </div>
+                    </div>
+                    
+                    <div class="pa-section">
+                        <div class="pa-label">WORD DELIMITER</div>
+                        <div class="pa-desc">Change how words are separated. Using the pipe delimiter allows you to randomize groups of words.</div>
+                        <div class="config-group">
+                            <button class="config-btn disabled">pipe</button>
+                            <button class="config-btn active">space</button>
+                        </div>
+                    </div>
+                    
+                    <div class="pa-section" style="display:flex; flex-direction:column; gap:10px;">
+                        <button class="retro-btn small block disabled"><span class="icon">📄</span> OPEN FILE</button>
+                        <button class="retro-btn small block disabled"><span class="icon">🔍</span> WORDS FILTER</button>
+                        <button class="retro-btn small block disabled"><span class="icon">⚙</span> CUSTOM GENERATOR</button>
+                    </div>
+                    
+                    <div class="pa-section">
+                        <div class="pa-label">REMOVE ZERO-WIDTH CHARACTERS</div>
+                        <div class="pa-desc">Fully remove zero-width characters.</div>
+                        <button class="retro-btn small block disabled">APPLY</button>
+                    </div>
+                    
+                    <div class="pa-section">
+                        <div class="pa-label">REPLACE NEW LINES WITH SPACES</div>
+                        <div class="pa-desc">Replace all new line characters with spaces.</div>
+                        <div class="config-group">
+                            <button class="config-btn active">space</button>
+                            <button class="config-btn disabled">period + space</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <button id="promptCancelBtn" class="retro-btn">CANCEL</button>
+                <button id="promptOkBtn" class="retro-btn primary">OK</button>
+            </div>
+        </div>
     </div>
 
     <script>
-    (function () {
-        'use strict';
+        (function () {
+            'use strict';
+            
+            /* ── Custom Prompt Dialog ────────────────────────── */
+            var promptCallback = null;
 
-        /* ═══════════════════════════════════════════════════
-           CONSTANTS
-           ═══════════════════════════════════════════════════ */
-        var KEYBOARD_LAYOUT = [
-            [
-                {code:'Backquote',label:'`',w:1},{code:'Digit1',label:'1',w:1},{code:'Digit2',label:'2',w:1},
-                {code:'Digit3',label:'3',w:1},{code:'Digit4',label:'4',w:1},{code:'Digit5',label:'5',w:1},
-                {code:'Digit6',label:'6',w:1},{code:'Digit7',label:'7',w:1},{code:'Digit8',label:'8',w:1},
-                {code:'Digit9',label:'9',w:1},{code:'Digit0',label:'0',w:1},{code:'Minus',label:'-',w:1},
-                {code:'Equal',label:'=',w:1},{code:'Backspace',label:'⌫',w:2}
-            ],
-            [
-                {code:'Tab',label:'⇥',w:1.5},{code:'KeyQ',label:'Q',w:1},{code:'KeyW',label:'W',w:1},
-                {code:'KeyE',label:'E',w:1},{code:'KeyR',label:'R',w:1},{code:'KeyT',label:'T',w:1},
-                {code:'KeyY',label:'Y',w:1},{code:'KeyU',label:'U',w:1},{code:'KeyI',label:'I',w:1},
-                {code:'KeyO',label:'O',w:1},{code:'KeyP',label:'P',w:1},{code:'BracketLeft',label:'[',w:1},
-                {code:'BracketRight',label:']',w:1},{code:'Backslash',label:'\\',w:1.5}
-            ],
-            [
-                {code:'CapsLock',label:'Caps',w:1.75},{code:'KeyA',label:'A',w:1},{code:'KeyS',label:'S',w:1},
-                {code:'KeyD',label:'D',w:1},{code:'KeyF',label:'F',w:1},{code:'KeyG',label:'G',w:1},
-                {code:'KeyH',label:'H',w:1},{code:'KeyJ',label:'J',w:1},{code:'KeyK',label:'K',w:1},
-                {code:'KeyL',label:'L',w:1},{code:'Semicolon',label:';',w:1},{code:'Quote',label:"'",w:1},
-                {code:'Enter',label:'⏎',w:2.25}
-            ],
-            [
-                {code:'ShiftLeft',label:'⇧',w:2.25},{code:'KeyZ',label:'Z',w:1},{code:'KeyX',label:'X',w:1},
-                {code:'KeyC',label:'C',w:1},{code:'KeyV',label:'V',w:1},{code:'KeyB',label:'B',w:1},
-                {code:'KeyN',label:'N',w:1},{code:'KeyM',label:'M',w:1},{code:'Comma',label:',',w:1},
-                {code:'Period',label:'.',w:1},{code:'Slash',label:'/',w:1},{code:'ShiftRight',label:'⇧',w:2.75}
-            ],
-            [
-                {code:'ControlLeft',label:'Ctrl',w:1.25},{code:'MetaLeft',label:'⊞',w:1.25},
-                {code:'AltLeft',label:'Alt',w:1.25},{code:'Space',label:'',w:6.25},
-                {code:'AltRight',label:'Alt',w:1.25},{code:'MetaRight',label:'⊞',w:1.25},
-                {code:'ContextMenu',label:'Menu',w:1.25},{code:'ControlRight',label:'Ctrl',w:1.25}
-            ]
-        ];
-
-        var WORD_LIST = ["the","be","to","of","and","a","in","that","have","it","for","not","on","with","he","as","you","do","at","this","but","his","by","from","they","we","say","her","she","or","an","will","my","one","all","would","there","their","what","so","up","out","if","about","who","get","which","go","me","when","make","can","like","time","no","just","him","know","take","people","into","year","your","good","some","could","them","see","other","than","then","now","look","only","come","its","over","think","also","back","after","use","two","how","our","work","first","well","way","even","new","want","because","any","these","give","day","most","us","name","home","water","room","small","found","thought","still","family","hand","world","school","story","sound","above","together","group","often","run","important","until","side","feet","night","walk","white","sea","four","state","book","hear","stop","later","idea","enough","eat","face","watch","real","young","talk","soon","song","mountain","river","city","light","kind","child","place","right","next","sure","mean","keep","last","long","both","need","feel","seem","ask","tell","end","why","area","money","month","lot","study","word","business","issue","head","house","service","friend","father","power","hour","game","line","member","law","car","community","president","team","minute","body","information","parent","others","level","office","door","health","person","art","war","history","party","result","change","morning","reason","research","girl","guy","moment","air","teacher","force","education"];
-
-        var DURATIONS = [15, 30, 60, 120];
-        var RENDER_BEHIND = 15;
-        var RENDER_AHEAD = 30;
-        var REFILL_THRESHOLD = 40;
-        var REFILL_AMOUNT = 40;
-
-        var BOT_NAMES = ['CyberFox', 'NeonByte', 'PixelDust', 'RetroBot'];
-
-        /* ═══════════════════════════════════════════════════
-           SOUND ENGINE (Web Audio API — tiny retro beeps)
-           ═══════════════════════════════════════════════════ */
-        var audioCtx = null;
-        var soundEnabled = false;
-
-        function initAudio() {
-            if (!audioCtx) {
-                try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
+            function showPrompt(title, type, defaultValue, callback) {
+                var modal = document.getElementById('promptModal');
+                var titleEl = document.getElementById('promptTitle');
+                var inputEl = document.getElementById('promptInput');
+                var textEl = document.getElementById('promptTextarea');
+                var advancedEl = document.getElementById('promptAdvanced');
+                var boxEl = document.getElementById('modalBox');
+                
+                titleEl.textContent = title;
+                promptCallback = callback;
+                
+                if (type === 'textarea') {
+                    inputEl.classList.add('hidden');
+                    advancedEl.classList.remove('hidden');
+                    boxEl.classList.add('large');
+                    textEl.value = defaultValue || '';
+                } else {
+                    advancedEl.classList.add('hidden');
+                    boxEl.classList.remove('large');
+                    inputEl.classList.remove('hidden');
+                    inputEl.value = defaultValue || '';
+                }
+                
+                modal.classList.remove('hidden');
+                
+                setTimeout(function() {
+                    if (type === 'textarea') {
+                        textEl.focus();
+                        textEl.selectionStart = textEl.selectionEnd = textEl.value.length;
+                    } else {
+                        inputEl.focus();
+                        inputEl.select();
+                    }
+                }, 10);
             }
-        }
 
-        function playBeep(freq, duration, vol) {
-            if (!soundEnabled || !audioCtx) return;
-            var osc = audioCtx.createOscillator();
-            var gain = audioCtx.createGain();
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.type = 'square';
-            osc.frequency.value = freq;
-            gain.gain.value = vol || 0.05;
-            osc.start();
-            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + (duration || 0.08));
-            osc.stop(audioCtx.currentTime + (duration || 0.08));
-        }
+            function closePrompt(submit) {
+                var modal = document.getElementById('promptModal');
+                if (modal.classList.contains('hidden')) return;
+                
+                var inputEl = document.getElementById('promptInput');
+                var textEl = document.getElementById('promptTextarea');
+                var type = inputEl.classList.contains('hidden') ? 'textarea' : 'text';
+                var val = type === 'textarea' ? textEl.value : inputEl.value;
+                
+                modal.classList.add('hidden');
+                
+                if (promptCallback) {
+                    var cb = promptCallback;
+                    promptCallback = null;
+                    if (submit) cb(val);
+                    else cb(null);
+                }
+            }
 
-        function playKeyClick() { playBeep(800, 0.03, 0.03); }
-        function playComboUp() { playBeep(1200, 0.06, 0.04); }
-        function playComboBreak() { playBeep(200, 0.12, 0.04); }
-        function playCountdown() { playBeep(600, 0.15, 0.05); }
-        function playGo() { playBeep(1000, 0.2, 0.06); }
-        function playFinish() { playBeep(440, 0.3, 0.06); setTimeout(function(){ playBeep(660, 0.3, 0.06); }, 150); }
+            /* ═══════════════════════════════════════════════════
+               CONSTANTS
+               ═══════════════════════════════════════════════════ */
+            var KEYBOARD_LAYOUT = [
+                [
+                    { code: 'Backquote', label: '`', w: 1 }, { code: 'Digit1', label: '1', w: 1 }, { code: 'Digit2', label: '2', w: 1 },
+                    { code: 'Digit3', label: '3', w: 1 }, { code: 'Digit4', label: '4', w: 1 }, { code: 'Digit5', label: '5', w: 1 },
+                    { code: 'Digit6', label: '6', w: 1 }, { code: 'Digit7', label: '7', w: 1 }, { code: 'Digit8', label: '8', w: 1 },
+                    { code: 'Digit9', label: '9', w: 1 }, { code: 'Digit0', label: '0', w: 1 }, { code: 'Minus', label: '-', w: 1 },
+                    { code: 'Equal', label: '=', w: 1 }, { code: 'Backspace', label: '⌫', w: 2 }
+                ],
+                [
+                    { code: 'Tab', label: '⇥', w: 1.5 }, { code: 'KeyQ', label: 'Q', w: 1 }, { code: 'KeyW', label: 'W', w: 1 },
+                    { code: 'KeyE', label: 'E', w: 1 }, { code: 'KeyR', label: 'R', w: 1 }, { code: 'KeyT', label: 'T', w: 1 },
+                    { code: 'KeyY', label: 'Y', w: 1 }, { code: 'KeyU', label: 'U', w: 1 }, { code: 'KeyI', label: 'I', w: 1 },
+                    { code: 'KeyO', label: 'O', w: 1 }, { code: 'KeyP', label: 'P', w: 1 }, { code: 'BracketLeft', label: '[', w: 1 },
+                    { code: 'BracketRight', label: ']', w: 1 }, { code: 'Backslash', label: '\\', w: 1.5 }
+                ],
+                [
+                    { code: 'CapsLock', label: 'Caps', w: 1.75 }, { code: 'KeyA', label: 'A', w: 1 }, { code: 'KeyS', label: 'S', w: 1 },
+                    { code: 'KeyD', label: 'D', w: 1 }, { code: 'KeyF', label: 'F', w: 1 }, { code: 'KeyG', label: 'G', w: 1 },
+                    { code: 'KeyH', label: 'H', w: 1 }, { code: 'KeyJ', label: 'J', w: 1 }, { code: 'KeyK', label: 'K', w: 1 },
+                    { code: 'KeyL', label: 'L', w: 1 }, { code: 'Semicolon', label: ';', w: 1 }, { code: 'Quote', label: "'", w: 1 },
+                    { code: 'Enter', label: '⏎', w: 2.25 }
+                ],
+                [
+                    { code: 'ShiftLeft', label: '⇧', w: 2.25 }, { code: 'KeyZ', label: 'Z', w: 1 }, { code: 'KeyX', label: 'X', w: 1 },
+                    { code: 'KeyC', label: 'C', w: 1 }, { code: 'KeyV', label: 'V', w: 1 }, { code: 'KeyB', label: 'B', w: 1 },
+                    { code: 'KeyN', label: 'N', w: 1 }, { code: 'KeyM', label: 'M', w: 1 }, { code: 'Comma', label: ',', w: 1 },
+                    { code: 'Period', label: '.', w: 1 }, { code: 'Slash', label: '/', w: 1 }, { code: 'ShiftRight', label: '⇧', w: 2.75 }
+                ],
+                [
+                    { code: 'ControlLeft', label: 'Ctrl', w: 1.25 }, { code: 'MetaLeft', label: '⊞', w: 1.25 },
+                    { code: 'AltLeft', label: 'Alt', w: 1.25 }, { code: 'Space', label: '', w: 6.25 },
+                    { code: 'AltRight', label: 'Alt', w: 1.25 }, { code: 'MetaRight', label: '⊞', w: 1.25 },
+                    { code: 'ContextMenu', label: 'Menu', w: 1.25 }, { code: 'ControlRight', label: 'Ctrl', w: 1.25 }
+                ]
+            ];
 
-        document.getElementById('soundToggle').addEventListener('click', function() {
-            initAudio();
-            soundEnabled = !soundEnabled;
-            this.textContent = soundEnabled ? '🔊' : '🔇';
-            this.classList.toggle('on', soundEnabled);
-            if (soundEnabled) playBeep(600, 0.1, 0.05);
-        });
+            var WORD_LIST = ["the", "be", "to", "of", "and", "a", "in", "that", "have", "it", "for", "not", "on", "with", "he", "as", "you", "do", "at", "this", "but", "his", "by", "from", "they", "we", "say", "her", "she", "or", "an", "will", "my", "one", "all", "would", "there", "their", "what", "so", "up", "out", "if", "about", "who", "get", "which", "go", "me", "when", "make", "can", "like", "time", "no", "just", "him", "know", "take", "people", "into", "year", "your", "good", "some", "could", "them", "see", "other", "than", "then", "now", "look", "only", "come", "its", "over", "think", "also", "back", "after", "use", "two", "how", "our", "work", "first", "well", "way", "even", "new", "want", "because", "any", "these", "give", "day", "most", "us", "name", "home", "water", "room", "small", "found", "thought", "still", "family", "hand", "world", "school", "story", "sound", "above", "together", "group", "often", "run", "important", "until", "side", "feet", "night", "walk", "white", "sea", "four", "state", "book", "hear", "stop", "later", "idea", "enough", "eat", "face", "watch", "real", "young", "talk", "soon", "song", "mountain", "river", "city", "light", "kind", "child", "place", "right", "next", "sure", "mean", "keep", "last", "long", "both", "need", "feel", "seem", "ask", "tell", "end", "why", "area", "money", "month", "lot", "study", "word", "business", "issue", "head", "house", "service", "friend", "father", "power", "hour", "game", "line", "member", "law", "car", "community", "president", "team", "minute", "body", "information", "parent", "others", "level", "office", "door", "health", "person", "art", "war", "history", "party", "result", "change", "morning", "reason", "research", "girl", "guy", "moment", "air", "teacher", "force", "education"];
 
-        /* ═══════════════════════════════════════════════════
-           STATE
-           ═══════════════════════════════════════════════════ */
-        var state = {
-            pressedKeys: new Set(),
-            testedKeys: new Set(),
-            lastKey: null,
-            // Typing race
-            duration: 30,
-            timeLeft: 30,
-            words: [],
-            currentWordIndex: 0,
-            currentInput: '',
-            typedWords: [],
-            wordScores: [], // {correct, total} per finalized word
-            isActive: false,
-            isFinished: false,
-            correctChars: 0,
-            totalCharsTyped: 0,
-            timerInterval: null,
-            countdownActive: false,
-            // Combo / streak
-            combo: 1,
-            maxCombo: 1,
-            streak: 0,
-            maxStreak: 0,
-        };
+            var state = {
+                pressedKeys: new Set(),
+                testedKeys: new Set(),
+                // Config
+                mode: 'time',
+                punctuation: false,
+                numbers: false,
+                timeConfig: 30,
+                wordsConfig: 50,
+                timeElapsed: 0,
+                // Typing race
+                duration: 30,
+                timeLeft: 30,
+                words: [],
+                currentWordIndex: 0,
+                currentInput: '',
+                typedWords: [],
+                wordScores: [], // {correct, total} per finalized word
+                isActive: false,
+                isFinished: false,
+                correctChars: 0,
+                totalCharsTyped: 0,
+                timerInterval: null,
+                // Combo / streak
+                combo: 1,
+                maxCombo: 1,
+                streak: 0,
+                maxStreak: 0,
+                lastRowTop: 0
+            };
 
-        var keyEls = new Map();
-        var lastRowTop = null;
+            var DURATIONS = [15, 30, 60, 120];
+            var RENDER_BEHIND = 15;
+            var RENDER_AHEAD = 30;
+            var REFILL_THRESHOLD = 40;
+            var REFILL_AMOUNT = 40;
 
-        /* ═══════════════════════════════════════════════════
-           UTILITIES
-           ═══════════════════════════════════════════════════ */
-        function escapeHtml(s) {
-            return String(s).replace(/[&<>"']/g, function(c) {
-                return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+            var BOT_NAMES = ['CyberFox', 'NeonByte', 'PixelDust', 'RetroBot'];
+
+            /* ═══════════════════════════════════════════════════
+               SOUND ENGINE (Web Audio API — tiny retro beeps)
+               ═══════════════════════════════════════════════════ */
+            var audioCtx = null;
+            var soundEnabled = false;
+
+            function initAudio() {
+                if (!audioCtx) {
+                    try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { }
+                }
+            }
+
+            function playBeep(freq, duration, vol) {
+                if (!soundEnabled || !audioCtx) return;
+                var osc = audioCtx.createOscillator();
+                var gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.type = 'square';
+                osc.frequency.value = freq;
+                gain.gain.value = vol || 0.05;
+                osc.start();
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + (duration || 0.08));
+                osc.stop(audioCtx.currentTime + (duration || 0.08));
+            }
+
+            function playKeyClick() { playBeep(800, 0.03, 0.03); }
+            function playComboUp() { playBeep(1200, 0.06, 0.04); }
+            function playComboBreak() { playBeep(200, 0.12, 0.04); }
+            function playCountdown() { playBeep(600, 0.15, 0.05); }
+            function playGo() { playBeep(1000, 0.2, 0.06); }
+            function playFinish() { playBeep(440, 0.3, 0.06); setTimeout(function () { playBeep(660, 0.3, 0.06); }, 150); }
+
+            document.getElementById('soundToggle').addEventListener('click', function () {
+                initAudio();
+                soundEnabled = !soundEnabled;
+                this.textContent = soundEnabled ? '🔊' : '🔇';
+                this.classList.toggle('on', soundEnabled);
+                if (soundEnabled) playBeep(600, 0.1, 0.05);
             });
-        }
 
-        function keyLabelFromEvent(e) {
-            if (e.code === 'Space') return '␣';
-            if (e.key && e.key.length === 1) return e.key.toUpperCase();
-            var special = {Enter:'⏎',Backspace:'⌫',Tab:'⇥',ShiftLeft:'⇧',ShiftRight:'⇧',ControlLeft:'Ctrl',ControlRight:'Ctrl',AltLeft:'Alt',AltRight:'Alt',CapsLock:'Caps',ArrowLeft:'←',ArrowRight:'→',ArrowUp:'↑',ArrowDown:'↓',Escape:'Esc',MetaLeft:'⊞',MetaRight:'⊞'};
-            return special[e.code] || (e.key || e.code);
-        }
+            /* ═══════════════════════════════════════════════════
+               STATE
+               ═══════════════════════════════════════════════════ */
+            var state = {
+                pressedKeys: new Set(),
+                testedKeys: new Set(),
+                lastKey: null,
+                // Typing race
+                duration: 30,
+                timeLeft: 30,
+                words: [],
+                currentWordIndex: 0,
+                currentInput: '',
+                typedWords: [],
+                wordScores: [], // {correct, total} per finalized word
+                isActive: false,
+                isFinished: false,
+                correctChars: 0,
+                totalCharsTyped: 0,
+                timerInterval: null,
+                // Combo / streak
+                combo: 1,
+                maxCombo: 1,
+                streak: 0,
+                maxStreak: 0,
+            };
 
-        function getRank(wpm) {
-            if (wpm >= 120) return 'SS';
-            if (wpm >= 90) return 'S';
-            if (wpm >= 70) return 'A';
-            if (wpm >= 50) return 'B';
-            if (wpm >= 35) return 'C';
-            if (wpm >= 20) return 'D';
-            return 'F';
-        }
+            var keyEls = new Map();
+            var lastRowTop = null;
 
-        function getPB() {
-            try { return parseInt(localStorage.getItem('climaxkeys_pb') || '0', 10); } catch(e) { return 0; }
-        }
-        function setPB(wpm) {
-            try { localStorage.setItem('climaxkeys_pb', String(wpm)); } catch(e) {}
-        }
-
-        /* ═══════════════════════════════════════════════════
-           KEYBOARD BUILD
-           ═══════════════════════════════════════════════════ */
-        function buildKeyboard(root) {
-            var isMac = /Mac|iPhone|iPod|iPad/.test(navigator.platform || navigator.userAgent || '');
-            var overrides = isMac ? {MetaLeft:'⌘',MetaRight:'⌘',AltLeft:'Option',AltRight:'Option'} : {};
-            KEYBOARD_LAYOUT.forEach(function(row) {
-                var rowEl = document.createElement('div');
-                rowEl.className = 'kb-row';
-                row.forEach(function(k) {
-                    var el = document.createElement('div');
-                    el.className = 'kb-key' + ((k.code==='KeyF'||k.code==='KeyJ')?' home-bump':'');
-                    el.style.flexGrow = k.w;
-                    el.style.flexBasis = '0';
-                    el.dataset.code = k.code;
-                    var span = document.createElement('span');
-                    span.textContent = overrides[k.code] || k.label;
-                    el.appendChild(span);
-                    rowEl.appendChild(el);
-                    keyEls.set(k.code, el);
+            /* ═══════════════════════════════════════════════════
+               UTILITIES
+               ═══════════════════════════════════════════════════ */
+            function escapeHtml(s) {
+                return String(s).replace(/[&<>"']/g, function (c) {
+                    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
                 });
-                root.appendChild(rowEl);
-            });
-        }
-
-        function setKeyPressed(code, pressed) {
-            var el = keyEls.get(code);
-            if (!el) return;
-            el.classList.toggle('pressed', pressed);
-            if (pressed) el.classList.add('tested');
-        }
-
-        function updateLastKeyDisplay() {
-            document.getElementById('lastKeyBox').textContent = state.lastKey.label;
-            document.getElementById('lastKeyCode').textContent = state.lastKey.code;
-        }
-
-        function updateTestedCount() {
-            document.getElementById('testedCount').textContent = state.testedKeys.size;
-        }
-
-        /* ═══════════════════════════════════════════════════
-           TYPING RACE — WORD GENERATION & RENDERING
-           ═══════════════════════════════════════════════════ */
-        function generateWords(count) {
-            var out = [];
-            for (var i = 0; i < count; i++) out.push(WORD_LIST[Math.floor(Math.random() * WORD_LIST.length)]);
-            return out;
-        }
-
-        function ensureEnoughWords() {
-            if (state.words.length - state.currentWordIndex < REFILL_THRESHOLD) {
-                state.words = state.words.concat(generateWords(REFILL_AMOUNT));
             }
-        }
 
-        function renderTypingArea() {
-            var container = document.getElementById('wordsDisplay');
-            var startIdx = Math.max(0, state.currentWordIndex - RENDER_BEHIND);
-            var endIdx = Math.min(state.words.length, state.currentWordIndex + RENDER_AHEAD);
-            var html = '';
-            for (var wi = startIdx; wi < endIdx; wi++) {
-                var word = state.words[wi];
-                html += '<span class="word' + (wi === state.currentWordIndex ? ' current' : '') + '">';
-                if (wi < state.currentWordIndex) {
-                    var typedDone = state.typedWords[wi] || '';
-                    var len = Math.max(word.length, typedDone.length);
-                    for (var i = 0; i < len; i++) {
-                        var t = word[i], y = typedDone[i];
-                        if (y === undefined) html += '<span class="char missed">' + escapeHtml(t) + '</span>';
-                        else if (t === undefined) html += '<span class="char extra">' + escapeHtml(y) + '</span>';
-                        else if (y === t) html += '<span class="char correct">' + escapeHtml(t) + '</span>';
-                        else html += '<span class="char incorrect">' + escapeHtml(t) + '</span>';
+            function keyLabelFromEvent(e) {
+                if (e.code === 'Space') return '␣';
+                if (e.key && e.key.length === 1) return e.key.toUpperCase();
+                var special = { Enter: '⏎', Backspace: '⌫', Tab: '⇥', ShiftLeft: '⇧', ShiftRight: '⇧', ControlLeft: 'Ctrl', ControlRight: 'Ctrl', AltLeft: 'Alt', AltRight: 'Alt', CapsLock: 'Caps', ArrowLeft: '←', ArrowRight: '→', ArrowUp: '↑', ArrowDown: '↓', Escape: 'Esc', MetaLeft: '⊞', MetaRight: '⊞' };
+                return special[e.code] || (e.key || e.code);
+            }
+
+            function getRank(wpm) {
+                if (wpm >= 120) return 'SS';
+                if (wpm >= 90) return 'S';
+                if (wpm >= 70) return 'A';
+                if (wpm >= 50) return 'B';
+                if (wpm >= 35) return 'C';
+                if (wpm >= 20) return 'D';
+                return 'F';
+            }
+
+            function getPB() {
+                try { return parseInt(localStorage.getItem('climaxkeys_pb') || '0', 10); } catch (e) { return 0; }
+            }
+            function setPB(wpm) {
+                try { localStorage.setItem('climaxkeys_pb', String(wpm)); } catch (e) { }
+            }
+
+            /* ═══════════════════════════════════════════════════
+               KEYBOARD BUILD
+               ═══════════════════════════════════════════════════ */
+            function buildKeyboard(root) {
+                var isMac = /Mac|iPhone|iPod|iPad/.test(navigator.platform || navigator.userAgent || '');
+                var overrides = isMac ? { MetaLeft: '⌘', MetaRight: '⌘', AltLeft: 'Option', AltRight: 'Option' } : {};
+                KEYBOARD_LAYOUT.forEach(function (row) {
+                    var rowEl = document.createElement('div');
+                    rowEl.className = 'kb-row';
+                    row.forEach(function (k) {
+                        var el = document.createElement('div');
+                        el.className = 'kb-key' + ((k.code === 'KeyF' || k.code === 'KeyJ') ? ' home-bump' : '');
+                        el.style.flexGrow = k.w;
+                        el.style.flexBasis = '0';
+                        el.dataset.code = k.code;
+                        var span = document.createElement('span');
+                        span.textContent = overrides[k.code] || k.label;
+                        el.appendChild(span);
+                        rowEl.appendChild(el);
+                        keyEls.set(k.code, el);
+                    });
+                    root.appendChild(rowEl);
+                });
+            }
+
+            function setKeyPressed(code, pressed) {
+                var el = keyEls.get(code);
+                if (!el) return;
+                el.classList.toggle('pressed', pressed);
+                if (pressed) el.classList.add('tested');
+            }
+
+            function updateLastKeyDisplay() {
+                document.getElementById('lastKeyBox').textContent = state.lastKey.label;
+                document.getElementById('lastKeyCode').textContent = state.lastKey.code;
+            }
+
+            function updateTestedCount() {
+                document.getElementById('testedCount').textContent = state.testedKeys.size;
+            }
+
+            /* ═══════════════════════════════════════════════════
+               TYPING RACE — WORD GENERATION & RENDERING
+               ═══════════════════════════════════════════════════ */
+            function generateWords(count) {
+                var out = [];
+                var puncList = [',', '.', '?', '!', ';', ':', '"', "'", '()'];
+                for (var i = 0; i < count; i++) {
+                    var w = WORD_LIST[Math.floor(Math.random() * WORD_LIST.length)];
+                    if (state.numbers && Math.random() < 0.2) {
+                        w = Math.floor(Math.random() * 100).toString();
                     }
-                } else if (wi === state.currentWordIndex) {
-                    var typed = state.currentInput;
-                    for (var j = 0; j < word.length; j++) {
-                        if (j < typed.length) {
-                            html += '<span class="char ' + (typed[j] === word[j] ? 'correct' : 'incorrect') + '">' + escapeHtml(word[j]) + '</span>';
-                        } else {
-                            html += '<span class="char">' + escapeHtml(word[j]) + '</span>';
+                    if (state.punctuation && Math.random() < 0.3) {
+                        var p = puncList[Math.floor(Math.random() * puncList.length)];
+                        if (p === '()') w = '(' + w + ')';
+                        else if (p === '"') w = '"' + w + '"';
+                        else if (p === "'") w = "'" + w + "'";
+                        else w = w + p;
+                    }
+                    out.push(w);
+                }
+                if (state.punctuation && out.length > 0) {
+                    out[0] = out[0].charAt(0).toUpperCase() + out[0].slice(1);
+                }
+                return out;
+            }
+
+            function ensureEnoughWords() {
+                if (state.mode === 'words') return; // Don't refill in words mode
+                if (state.words.length - state.currentWordIndex < REFILL_THRESHOLD) {
+                    state.words = state.words.concat(generateWords(REFILL_AMOUNT));
+                }
+            }
+
+            function renderTypingArea() {
+                var container = document.getElementById('wordsDisplay');
+                var startIdx = Math.max(0, state.currentWordIndex - RENDER_BEHIND);
+                var endIdx = Math.min(state.words.length, state.currentWordIndex + RENDER_AHEAD);
+                var html = '';
+                for (var wi = startIdx; wi < endIdx; wi++) {
+                    var word = state.words[wi];
+                    html += '<span class="word' + (wi === state.currentWordIndex ? ' current' : '') + '">';
+                    if (wi < state.currentWordIndex) {
+                        var typedDone = state.typedWords[wi] || '';
+                        var len = Math.max(word.length, typedDone.length);
+                        for (var i = 0; i < len; i++) {
+                            var t = word[i], y = typedDone[i];
+                            if (y === undefined) html += '<span class="char missed">' + escapeHtml(t) + '</span>';
+                            else if (t === undefined) html += '<span class="char extra">' + escapeHtml(y) + '</span>';
+                            else if (y === t) html += '<span class="char correct">' + escapeHtml(t) + '</span>';
+                            else html += '<span class="char incorrect">' + escapeHtml(t) + '</span>';
                         }
+                    } else if (wi === state.currentWordIndex) {
+                        var typed = state.currentInput;
+                        for (var j = 0; j < word.length; j++) {
+                            if (j < typed.length) {
+                                html += '<span class="char ' + (typed[j] === word[j] ? 'correct' : 'incorrect') + '">' + escapeHtml(word[j]) + '</span>';
+                            } else {
+                                html += '<span class="char">' + escapeHtml(word[j]) + '</span>';
+                            }
+                        }
+                        if (typed.length > word.length) {
+                            for (var k = word.length; k < typed.length; k++) html += '<span class="char extra">' + escapeHtml(typed[k]) + '</span>';
+                        }
+                        html += '<span class="cursor"></span>';
+                    } else {
+                        html += '<span class="char">' + escapeHtml(word) + '</span>';
                     }
-                    if (typed.length > word.length) {
-                        for (var k = word.length; k < typed.length; k++) html += '<span class="char extra">' + escapeHtml(typed[k]) + '</span>';
+                    html += '</span>';
+                }
+                container.innerHTML = html;
+                var currentEl = container.querySelector('.word.current');
+                if (currentEl) {
+                    var top = currentEl.offsetTop;
+                    if (top !== state.lastRowTop) {
+                        var targetScroll = top - 48;
+                        if (targetScroll < 0) targetScroll = 0;
+                        container.scrollTop = targetScroll;
+                        state.lastRowTop = top;
                     }
-                    html += '<span class="cursor"></span>';
+                }
+            }
+
+            function updateStatsDisplay() {
+                if (state.mode === 'time') {
+                    document.getElementById('statTime').textContent = state.timeLeft;
                 } else {
-                    html += '<span class="char">' + escapeHtml(word) + '</span>';
+                    document.getElementById('statTime').textContent = state.timeElapsed;
                 }
-                html += '</span>';
+                
+                var elapsed = state.mode === 'time' ? (state.timeConfig - state.timeLeft) : state.timeElapsed;
+                var wpm = elapsed > 0 ? Math.round((state.correctChars / 5) / (elapsed / 60)) : 0;
+                document.getElementById('statWpm').textContent = wpm;
+                var acc = state.totalCharsTyped > 0 ? Math.round((state.correctChars / state.totalCharsTyped) * 100) : 100;
+                document.getElementById('statAcc').textContent = acc + '%';
             }
-            container.innerHTML = html;
-            var currentEl = container.querySelector('.word.current');
-            if (currentEl) {
-                var top = currentEl.offsetTop;
-                if (top !== lastRowTop) {
-                    container.scrollTop = top - 6;
-                    lastRowTop = top;
-                }
+
+            function updateComboDisplay() {
+                var el = document.getElementById('comboVal');
+                el.textContent = '×' + state.combo;
+                var parent = el.closest('.combo-display');
+                parent.classList.remove('fire', 'blazing');
+                if (state.combo >= 10) parent.classList.add('blazing');
+                else if (state.combo >= 5) parent.classList.add('fire');
+                // Pop animation
+                el.classList.remove('combo-pop');
+                void el.offsetWidth; // trigger reflow
+                el.classList.add('combo-pop');
             }
-        }
 
-        function updateStatsDisplay() {
-            document.getElementById('statTime').textContent = state.timeLeft;
-            var elapsed = state.duration - state.timeLeft;
-            var wpm = elapsed > 0 ? Math.round((state.correctChars / 5) / (elapsed / 60)) : 0;
-            document.getElementById('statWpm').textContent = wpm;
-            var acc = state.totalCharsTyped > 0 ? Math.round((state.correctChars / state.totalCharsTyped) * 100) : 100;
-            document.getElementById('statAcc').textContent = acc + '%';
-        }
+            function updateStreakDisplay() {
+                document.getElementById('streakVal').textContent = state.streak;
+            }
 
-        function updateComboDisplay() {
-            var el = document.getElementById('comboVal');
-            el.textContent = '×' + state.combo;
-            var parent = el.closest('.combo-display');
-            parent.classList.remove('fire', 'blazing');
-            if (state.combo >= 10) parent.classList.add('blazing');
-            else if (state.combo >= 5) parent.classList.add('fire');
-            // Pop animation
-            el.classList.remove('combo-pop');
-            void el.offsetWidth; // trigger reflow
-            el.classList.add('combo-pop');
-        }
+            function updatePBDisplay() {
+                var pb = getPB();
+                document.getElementById('pbVal').textContent = pb > 0 ? pb : '--';
+            }
 
-        function updateStreakDisplay() {
-            document.getElementById('streakVal').textContent = state.streak;
-        }
 
-        function updatePBDisplay() {
-            var pb = getPB();
-            document.getElementById('pbVal').textContent = pb > 0 ? pb : '--';
-        }
 
-        /* ═══════════════════════════════════════════════════
-           COUNTDOWN
-           ═══════════════════════════════════════════════════ */
-        function showCountdown(callback) {
-            state.countdownActive = true;
-            var overlay = document.getElementById('countdownOverlay');
-            var content = document.getElementById('countdownContent');
-            overlay.classList.remove('hidden');
-            var counts = [3, 2, 1, 'GO!'];
-            var idx = 0;
-            function showNext() {
-                if (idx >= counts.length) {
-                    overlay.classList.add('hidden');
-                    state.countdownActive = false;
-                    callback();
-                    return;
-                }
-                var val = counts[idx];
-                if (val === 'GO!') {
-                    content.innerHTML = '<div class="countdown-go">' + val + '</div>';
-                    playGo();
+            /* ═══════════════════════════════════════════════════
+               TYPING RACE — LOGIC
+               ═══════════════════════════════════════════════════ */
+            function startTest() {
+                state.isActive = true;
+                state.timerInterval = setInterval(tick, 1000);
+            }
+
+            function tick() {
+                if (state.mode === 'time') {
+                    state.timeLeft -= 1;
+                    updateStatsDisplay();
+                    if (state.timeLeft <= 0) finishTest();
                 } else {
-                    content.innerHTML = '<div class="countdown-num">' + val + '</div>';
-                    playCountdown();
+                    state.timeElapsed += 1;
+                    updateStatsDisplay();
                 }
-                idx++;
-                setTimeout(showNext, idx >= counts.length ? 400 : 800);
-            }
-            showNext();
-        }
-
-        /* ═══════════════════════════════════════════════════
-           TYPING RACE — LOGIC
-           ═══════════════════════════════════════════════════ */
-        function startTest() {
-            state.isActive = true;
-            state.timerInterval = setInterval(tick, 1000);
-        }
-
-        function tick() {
-            state.timeLeft -= 1;
-            updateStatsDisplay();
-            if (state.timeLeft <= 0) finishTest();
-        }
-
-        function scoreWord(target, typed) {
-            var correct = 0;
-            var len = Math.max(target.length, typed.length);
-            for (var i = 0; i < Math.min(target.length, typed.length); i++) if (target[i] === typed[i]) correct++;
-            return { correct: correct, total: len };
-        }
-
-        function finalizeCurrentWord() {
-            var target = state.words[state.currentWordIndex];
-            var s = scoreWord(target, state.currentInput);
-            state.correctChars += s.correct;
-            state.totalCharsTyped += s.total;
-            state.typedWords[state.currentWordIndex] = state.currentInput;
-            state.wordScores[state.currentWordIndex] = s;
-
-            // Combo & streak: perfect word = all chars correct AND same length
-            var perfect = (state.currentInput === target);
-            if (perfect) {
-                state.combo++;
-                state.streak++;
-                if (state.combo > state.maxCombo) state.maxCombo = state.combo;
-                if (state.streak > state.maxStreak) state.maxStreak = state.streak;
-                playComboUp();
-            } else {
-                if (state.combo > 1) playComboBreak();
-                state.combo = 1;
-                state.streak = 0;
             }
 
-            state.currentWordIndex++;
-            state.currentInput = '';
-            ensureEnoughWords();
-            renderTypingArea();
-            updateStatsDisplay();
-            updateComboDisplay();
-            updateStreakDisplay();
-        }
-
-        function unfinalizeLastWord() {
-            // Go back to the previous word
-            if (state.currentWordIndex <= 0) return;
-            state.currentWordIndex--;
-            var prevScore = state.wordScores[state.currentWordIndex];
-            if (prevScore) {
-                state.correctChars -= prevScore.correct;
-                state.totalCharsTyped -= prevScore.total;
+            function scoreWord(target, typed) {
+                var correct = 0;
+                var len = Math.max(target.length, typed.length);
+                for (var i = 0; i < Math.min(target.length, typed.length); i++) if (target[i] === typed[i]) correct++;
+                return { correct: correct, total: len };
             }
-            state.currentInput = state.typedWords[state.currentWordIndex] || '';
-            state.typedWords[state.currentWordIndex] = undefined;
-            state.wordScores[state.currentWordIndex] = undefined;
-            // Reset combo on going back
-            state.combo = 1;
-            state.streak = 0;
-            renderTypingArea();
-            updateStatsDisplay();
-            updateComboDisplay();
-            updateStreakDisplay();
-        }
 
-        function finishTest() {
-            clearInterval(state.timerInterval);
-            if (state.currentInput.length > 0) {
+            function finalizeCurrentWord() {
                 var target = state.words[state.currentWordIndex];
                 var s = scoreWord(target, state.currentInput);
                 state.correctChars += s.correct;
                 state.totalCharsTyped += s.total;
-            }
-            state.isActive = false;
-            state.isFinished = true;
-            playFinish();
-            showResults();
-        }
+                state.typedWords[state.currentWordIndex] = state.currentInput;
+                state.wordScores[state.currentWordIndex] = s;
 
-        function showResults() {
-            var wpm = Math.round((state.correctChars / 5) / (state.duration / 60));
-            var acc = state.totalCharsTyped > 0 ? Math.round((state.correctChars / state.totalCharsTyped) * 100) : 100;
-            document.getElementById('resultsWpm').textContent = wpm;
-            document.getElementById('resultsAcc').textContent = acc + '%';
-            document.getElementById('resultsChars').textContent = state.totalCharsTyped;
-            document.getElementById('resultsStreak').textContent = state.maxStreak;
-            document.getElementById('resultsCombo').textContent = '×' + state.maxCombo;
-
-            // Rank
-            var rank = getRank(wpm);
-            document.getElementById('rankBadge').innerHTML = '<div class="rank-badge rank-' + rank + '">' + rank + '</div>';
-
-            // Personal best
-            var pb = getPB();
-            var msg = document.getElementById('newRecordMsg');
-            if (wpm > pb && wpm > 0) {
-                setPB(wpm);
-                msg.innerHTML = '<div class="new-record">★ NEW PERSONAL BEST! ★</div>';
-            } else {
-                msg.innerHTML = '';
-            }
-            updatePBDisplay();
-
-            document.getElementById('wordsDisplay').classList.add('hidden');
-            document.getElementById('typingStats').classList.add('hidden');
-            document.getElementById('gameBar').classList.add('hidden');
-            document.getElementById('resultsPanel').classList.remove('hidden');
-
-            // Scroll to results
-            document.getElementById('typingPanel').scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-
-        function resetTest() {
-            clearInterval(state.timerInterval);
-            state.words = generateWords(60);
-            state.currentWordIndex = 0;
-            state.currentInput = '';
-            state.typedWords = [];
-            state.wordScores = [];
-            state.isActive = false;
-            state.isFinished = false;
-            state.countdownActive = false;
-            state.timeLeft = state.duration;
-            state.correctChars = 0;
-            state.totalCharsTyped = 0;
-            state.combo = 1;
-            state.maxCombo = 1;
-            state.streak = 0;
-            state.maxStreak = 0;
-            lastRowTop = null;
-
-            document.getElementById('wordsDisplay').classList.remove('hidden');
-            document.getElementById('typingStats').classList.remove('hidden');
-            document.getElementById('gameBar').classList.remove('hidden');
-            document.getElementById('resultsPanel').classList.add('hidden');
-            document.getElementById('countdownOverlay').classList.add('hidden');
-
-            updateDurationButtons();
-            updateStatsDisplay();
-            updateComboDisplay();
-            updateStreakDisplay();
-            updatePBDisplay();
-            renderTypingArea();
-
-            // Fix scroll bug: scroll back to typing section top
-            document.getElementById('wordsDisplay').scrollTop = 0;
-            document.getElementById('section-typing').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
-        function buildDurationButtons() {
-            var row = document.getElementById('durationRow');
-            DURATIONS.forEach(function(d) {
-                var btn = document.createElement('button');
-                btn.className = 'duration-btn' + (d === state.duration ? ' active' : '');
-                btn.textContent = d + 's';
-                btn.dataset.duration = String(d);
-                btn.addEventListener('click', function() {
-                    if (state.isActive || state.countdownActive) return;
-                    state.duration = d;
-                    state.timeLeft = d;
-                    updateDurationButtons();
-                    updateStatsDisplay();
-                });
-                row.appendChild(btn);
-            });
-        }
-
-        function updateDurationButtons() {
-            document.querySelectorAll('#durationRow .duration-btn').forEach(function(b) {
-                b.classList.toggle('active', Number(b.dataset.duration) === state.duration);
-                b.disabled = state.isActive || state.countdownActive;
-            });
-        }
-
-        /* ═══════════════════════════════════════════════════
-           KEY HANDLER
-           ═══════════════════════════════════════════════════ */
-        function isTypingFocused() {
-            // Check if the typing section is near viewport center
-            var panel = document.getElementById('typingPanel');
-            var rect = panel.getBoundingClientRect();
-            return rect.top < window.innerHeight && rect.bottom > 0;
-        }
-
-        function isMpFocused() {
-            return mpState.status === 'racing';
-        }
-
-        function handleKeyDown(e) {
-            // Don't capture keys when typing in inputs
-            if (e.target.tagName === 'INPUT') return;
-
-            state.pressedKeys.add(e.code);
-            state.testedKeys.add(e.code);
-            state.lastKey = { code: e.code, label: keyLabelFromEvent(e) };
-            setKeyPressed(e.code, true);
-            updateLastKeyDisplay();
-            updateTestedCount();
-            playKeyClick();
-
-            if (e.ctrlKey || e.metaKey || e.altKey) return;
-
-            // Multiplayer racing handles its own input
-            if (isMpFocused()) {
-                handleMpKeyDown(e);
-                return;
-            }
-
-            if (state.isFinished || state.countdownActive) {
-                if (e.code === 'Space') e.preventDefault();
-                return;
-            }
-
-            if (e.code === 'Tab') { e.preventDefault(); return; }
-
-            if (e.code === 'Backspace') {
-                e.preventDefault();
-                if (state.currentInput.length > 0) {
-                    state.currentInput = state.currentInput.slice(0, -1);
-                    renderTypingArea();
-                } else if (state.isActive && state.currentWordIndex > 0) {
-                    // Go back to previous word
-                    unfinalizeLastWord();
-                }
-                return;
-            }
-
-            if (e.code === 'Space') {
-                e.preventDefault();
-                if (e.repeat) return;
-                if (!state.isActive && !state.countdownActive) {
-                    showCountdown(function() { startTest(); });
-                    state.countdownActive = true;
-                    updateDurationButtons();
-                    // Scroll to typing area
-                    document.getElementById('typingPanel').scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    return;
-                }
-                if (state.isActive) finalizeCurrentWord();
-                return;
-            }
-
-            if (e.repeat) return;
-
-            if (e.key && e.key.length === 1) {
-                e.preventDefault();
-                if (!state.isActive && !state.countdownActive) {
-                    // First character typed — start countdown then immediately add this char
-                    var firstChar = e.key.toLowerCase();
-                    showCountdown(function() {
-                        startTest();
-                        state.currentInput += firstChar;
-                        renderTypingArea();
-                    });
-                    state.countdownActive = true;
-                    updateDurationButtons();
-                    document.getElementById('typingPanel').scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    return;
-                }
-                if (state.isActive) {
-                    state.currentInput += e.key.toLowerCase();
-                    renderTypingArea();
-                }
-            }
-        }
-
-        function handleKeyUp(e) {
-            state.pressedKeys.delete(e.code);
-            setKeyPressed(e.code, false);
-        }
-
-        /* ═══════════════════════════════════════════════════
-           MULTIPLAYER — BOT RACING DEMO
-           ═══════════════════════════════════════════════════ */
-        var mpState = {
-            status: 'lobby', // lobby | countdown | racing | finished
-            duration: 30,
-            timeLeft: 30,
-            words: [],
-            currentWordIndex: 0,
-            currentInput: '',
-            typedWords: [],
-            isActive: false,
-            correctChars: 0,
-            totalCharsTyped: 0,
-            timerInterval: null,
-            playerName: 'Player',
-            bots: [],
-            botIntervals: [],
-            totalWords: 0,
-        };
-
-        function mpGenerateWords(count) {
-            var out = [];
-            for (var i = 0; i < count; i++) out.push(WORD_LIST[Math.floor(Math.random() * WORD_LIST.length)]);
-            return out;
-        }
-
-        function mpBuildDurationButtons() {
-            var row = document.getElementById('mpDurationRow');
-            DURATIONS.forEach(function(d) {
-                var btn = document.createElement('button');
-                btn.className = 'duration-btn' + (d === mpState.duration ? ' active' : '');
-                btn.textContent = d + 's';
-                btn.dataset.duration = String(d);
-                btn.addEventListener('click', function() {
-                    if (mpState.status !== 'lobby') return;
-                    mpState.duration = d;
-                    document.querySelectorAll('#mpDurationRow .duration-btn').forEach(function(b) {
-                        b.classList.toggle('active', Number(b.dataset.duration) === mpState.duration);
-                    });
-                });
-                row.appendChild(btn);
-            });
-        }
-
-        function mpStartRace() {
-            mpState.playerName = document.getElementById('mpName').value.trim() || 'Player';
-            mpState.timeLeft = mpState.duration;
-            mpState.words = mpGenerateWords(120);
-            mpState.currentWordIndex = 0;
-            mpState.currentInput = '';
-            mpState.typedWords = [];
-            mpState.correctChars = 0;
-            mpState.totalCharsTyped = 0;
-            mpState.totalWords = 0;
-            mpState.isActive = false;
-
-            // Create bots
-            mpState.bots = BOT_NAMES.map(function(name) {
-                return {
-                    name: name,
-                    wpm: 30 + Math.floor(Math.random() * 70), // 30-100 WPM
-                    wordsTyped: 0,
-                    progress: 0,
-                    finished: false,
-                };
-            });
-
-            document.getElementById('mpLobby').classList.add('hidden');
-            document.getElementById('mpResults').classList.add('hidden');
-            document.getElementById('mpRacing').classList.remove('hidden');
-
-            document.getElementById('mpRoomCode').textContent = 'LOCAL';
-            mpRenderPlayers();
-            mpRenderWords();
-
-            // Scroll to multiplayer section
-            document.getElementById('section-mp').scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-            // Countdown then start
-            showCountdown(function() {
-                mpState.status = 'racing';
-                mpState.isActive = true;
-                mpState.timerInterval = setInterval(mpTick, 1000);
-                mpStartBots();
-            });
-        }
-
-        function mpTick() {
-            mpState.timeLeft--;
-            document.getElementById('mpTimeLeft').textContent = mpState.timeLeft;
-            mpRenderPlayers();
-            if (mpState.timeLeft <= 0) mpFinish();
-        }
-
-        function mpStartBots() {
-            mpState.botIntervals = mpState.bots.map(function(bot) {
-                // Each bot "types" a word at intervals based on their WPM
-                var msPerWord = 60000 / bot.wpm;
-                return setInterval(function() {
-                    if (mpState.status !== 'racing') return;
-                    bot.wordsTyped++;
-                    bot.progress = bot.wordsTyped;
-                    mpRenderPlayers();
-                }, msPerWord + (Math.random() * 200 - 100));
-            });
-        }
-
-        function mpRenderPlayers() {
-            var list = document.getElementById('mpPlayerList');
-            var maxWords = Math.max(mpState.currentWordIndex, 1);
-            mpState.bots.forEach(function(b) { if (b.wordsTyped > maxWords) maxWords = b.wordsTyped; });
-            maxWords = Math.max(maxWords, 1);
-
-            var players = [{
-                name: mpState.playerName + ' (YOU)',
-                words: mpState.currentWordIndex,
-                wpm: mpState.isActive ? calcMpWpm() : 0,
-                isYou: true,
-            }];
-            mpState.bots.forEach(function(b) {
-                var elapsed = mpState.duration - mpState.timeLeft;
-                players.push({
-                    name: b.name,
-                    words: b.wordsTyped,
-                    wpm: elapsed > 0 ? Math.round(b.wordsTyped / (elapsed / 60)) : 0,
-                    isYou: false,
-                });
-            });
-
-            // Sort by words typed
-            players.sort(function(a,b) { return b.words - a.words; });
-
-            var html = '';
-            players.forEach(function(p, i) {
-                var pct = Math.min(100, (p.words / maxWords) * 100);
-                html += '<li class="mp-player' + (p.isYou ? ' you' : ' bot') + '">';
-                html += '<span class="mp-player-rank">#' + (i+1) + '</span>';
-                html += '<span class="mp-player-name">' + escapeHtml(p.name) + '</span>';
-                html += '<div class="mp-player-bar-wrap"><div class="mp-player-bar" style="width:' + pct + '%"></div></div>';
-                html += '<span class="mp-player-wpm">' + p.wpm + ' WPM</span>';
-                html += '</li>';
-            });
-            list.innerHTML = html;
-        }
-
-        function calcMpWpm() {
-            var elapsed = mpState.duration - mpState.timeLeft;
-            return elapsed > 0 ? Math.round((mpState.correctChars / 5) / (elapsed / 60)) : 0;
-        }
-
-        function mpRenderWords() {
-            var container = document.getElementById('mpWordsDisplay');
-            var startIdx = Math.max(0, mpState.currentWordIndex - 5);
-            var endIdx = Math.min(mpState.words.length, mpState.currentWordIndex + 20);
-            var html = '';
-            for (var wi = startIdx; wi < endIdx; wi++) {
-                var word = mpState.words[wi];
-                html += '<span class="word' + (wi === mpState.currentWordIndex ? ' current' : '') + '">';
-                if (wi < mpState.currentWordIndex) {
-                    var typedDone = mpState.typedWords[wi] || '';
-                    for (var i = 0; i < word.length; i++) {
-                        var ch = typedDone[i];
-                        if (ch === undefined) html += '<span class="char missed">' + escapeHtml(word[i]) + '</span>';
-                        else if (ch === word[i]) html += '<span class="char correct">' + escapeHtml(word[i]) + '</span>';
-                        else html += '<span class="char incorrect">' + escapeHtml(word[i]) + '</span>';
-                    }
-                } else if (wi === mpState.currentWordIndex) {
-                    var typed = mpState.currentInput;
-                    for (var j = 0; j < word.length; j++) {
-                        if (j < typed.length) {
-                            html += '<span class="char ' + (typed[j] === word[j] ? 'correct' : 'incorrect') + '">' + escapeHtml(word[j]) + '</span>';
-                        } else {
-                            html += '<span class="char">' + escapeHtml(word[j]) + '</span>';
-                        }
-                    }
-                    if (typed.length > word.length) {
-                        for (var k = word.length; k < typed.length; k++) html += '<span class="char extra">' + escapeHtml(typed[k]) + '</span>';
-                    }
-                    html += '<span class="cursor"></span>';
+                // Combo & streak: perfect word = all chars correct AND same length
+                var perfect = (state.currentInput === target);
+                if (perfect) {
+                    state.combo++;
+                    state.streak++;
+                    if (state.combo > state.maxCombo) state.maxCombo = state.combo;
+                    if (state.streak > state.maxStreak) state.maxStreak = state.streak;
+                    playComboUp();
                 } else {
-                    html += '<span class="char">' + escapeHtml(word) + '</span>';
+                    if (state.combo > 1) playComboBreak();
+                    state.combo = 1;
+                    state.streak = 0;
                 }
-                html += '</span>';
+
+                state.currentWordIndex++;
+                state.currentInput = '';
+                
+                if (state.mode === 'words' && state.currentWordIndex >= state.wordsConfig) {
+                    finishTest();
+                    return;
+                }
+                
+                ensureEnoughWords();
+                renderTypingArea();
+                updateStatsDisplay();
+                updateComboDisplay();
+                updateStreakDisplay();
             }
-            container.innerHTML = html;
-            var cur = container.querySelector('.word.current');
-            if (cur) container.scrollTop = cur.offsetTop - 6;
-        }
 
-        function handleMpKeyDown(e) {
-            if (e.ctrlKey || e.metaKey || e.altKey) return;
-            if (mpState.status !== 'racing' || !mpState.isActive) return;
-            if (e.target.tagName === 'INPUT') return;
+            function unfinalizeLastWord() {
+                // Go back to the previous word
+                if (state.currentWordIndex <= 0) return;
+                state.currentWordIndex--;
+                var prevScore = state.wordScores[state.currentWordIndex];
+                if (prevScore) {
+                    state.correctChars -= prevScore.correct;
+                    state.totalCharsTyped -= prevScore.total;
+                }
+                state.currentInput = state.typedWords[state.currentWordIndex] || '';
+                state.typedWords[state.currentWordIndex] = undefined;
+                state.wordScores[state.currentWordIndex] = undefined;
+                // Reset combo on going back
+                state.combo = 1;
+                state.streak = 0;
+                renderTypingArea();
+                updateStatsDisplay();
+                updateComboDisplay();
+                updateStreakDisplay();
+            }
 
-            if (e.code === 'Tab') { e.preventDefault(); return; }
+            function finishTest() {
+                clearInterval(state.timerInterval);
+                if (state.currentInput.length > 0) {
+                    var target = state.words[state.currentWordIndex];
+                    var s = scoreWord(target, state.currentInput);
+                    state.correctChars += s.correct;
+                    state.totalCharsTyped += s.total;
+                }
+                state.isActive = false;
+                state.isFinished = true;
+                playFinish();
+                showResults();
+            }
 
-            if (e.code === 'Backspace') {
-                e.preventDefault();
-                if (mpState.currentInput.length > 0) {
-                    mpState.currentInput = mpState.currentInput.slice(0, -1);
+            function showResults() {
+                var duration = state.mode === 'time' ? state.timeConfig : (state.timeElapsed || 1);
+                var wpm = Math.round((state.correctChars / 5) / (duration / 60));
+                var acc = state.totalCharsTyped > 0 ? Math.round((state.correctChars / state.totalCharsTyped) * 100) : 100;
+                document.getElementById('resultsWpm').textContent = wpm;
+                document.getElementById('resultsAcc').textContent = acc + '%';
+                document.getElementById('resultsChars').textContent = state.totalCharsTyped;
+                document.getElementById('resultsStreak').textContent = state.maxStreak;
+                document.getElementById('resultsCombo').textContent = '×' + state.maxCombo;
+
+                // Rank
+                var rank = getRank(wpm);
+                document.getElementById('rankBadge').innerHTML = '<div class="rank-badge rank-' + rank + '">' + rank + '</div>';
+
+                // Personal best
+                var pb = getPB();
+                var msg = document.getElementById('newRecordMsg');
+                if (wpm > pb && wpm > 0) {
+                    setPB(wpm);
+                    msg.innerHTML = '<div class="new-record">★ NEW PERSONAL BEST! ★</div>';
+                } else {
+                    msg.innerHTML = '';
+                }
+                updatePBDisplay();
+
+                document.getElementById('wordsDisplay').classList.add('hidden');
+                document.getElementById('typingStats').classList.add('hidden');
+                document.getElementById('gameBar').classList.add('hidden');
+                document.getElementById('resultsPanel').classList.remove('hidden');
+            }
+
+            function resetTest() {
+                clearInterval(state.timerInterval);
+                if (state.mode === 'custom') {
+                    state.words = state.customText ? state.customText.split(/\s+/) : ['custom', 'text', 'missing'];
+                } else {
+                    var wordCount = state.mode === 'words' ? state.wordsConfig : 60;
+                    state.words = generateWords(wordCount);
+                }
+                state.currentWordIndex = 0;
+                state.currentInput = '';
+                state.typedWords = [];
+                state.wordScores = [];
+                state.isActive = false;
+                state.isFinished = false;
+                state.timeLeft = state.timeConfig;
+                state.timeElapsed = 0;
+                state.correctChars = 0;
+                state.totalCharsTyped = 0;
+                state.combo = 1;
+                state.maxCombo = 1;
+                state.streak = 0;
+                state.maxStreak = 0;
+                state.lastRowTop = 0;
+
+                document.getElementById('wordsDisplay').classList.remove('hidden');
+                document.getElementById('typingStats').classList.remove('hidden');
+                document.getElementById('gameBar').classList.remove('hidden');
+                document.getElementById('resultsPanel').classList.add('hidden');
+
+                buildDurationButtons();
+                updateStatsDisplay();
+                updateComboDisplay();
+                updateStreakDisplay();
+                updatePBDisplay();
+                renderTypingArea();
+
+                // Reset scroll position
+                document.getElementById('wordsDisplay').scrollTop = 0;
+                window.scrollTo(0, 0);
+            }
+
+            function buildDurationButtons() {
+                var row = document.getElementById('durationRow');
+                row.innerHTML = '';
+                
+                if (state.mode === 'custom') {
+                    var changeBtn = document.createElement('button');
+                    changeBtn.className = 'config-btn active';
+                    changeBtn.textContent = 'Change Text';
+                    changeBtn.addEventListener('click', function() {
+                        if (state.isActive) return;
+                        showPrompt("Enter custom text:", "textarea", state.customText, function(text) {
+                            if (text && text.trim()) {
+                                state.customText = text.trim();
+                                resetTest();
+                            }
+                        });
+                    });
+                    row.appendChild(changeBtn);
+                    
+                    var slbl = document.querySelector('#statTime').nextElementSibling;
+                    if (slbl) slbl.textContent = 'time (s)';
+                    return;
+                }
+                
+                var options = state.mode === 'time' ? [15, 30, 60, 120] : [10, 25, 50, 100];
+                var currentVal = state.mode === 'time' ? state.timeConfig : state.wordsConfig;
+                
+                var hasCurrentVal = false;
+                
+                options.forEach(function (d) {
+                    if (d === currentVal) hasCurrentVal = true;
+                    var btn = document.createElement('button');
+                    btn.className = 'config-btn' + (d === currentVal ? ' active' : '');
+                    btn.textContent = String(d);
+                    btn.dataset.duration = String(d);
+                    btn.addEventListener('click', function () {
+                        if (state.isActive) return;
+                        if (state.mode === 'time') {
+                            state.timeConfig = d;
+                            state.timeLeft = d;
+                        } else {
+                            state.wordsConfig = d;
+                        }
+                        buildDurationButtons();
+                        resetTest();
+                    });
+                    row.appendChild(btn);
+                });
+                
+                if (!hasCurrentVal && currentVal > 0) {
+                    var cBtn = document.createElement('button');
+                    cBtn.className = 'config-btn active';
+                    cBtn.textContent = String(currentVal);
+                    cBtn.addEventListener('click', function () {
+                        if (state.isActive) return;
+                        if (state.mode === 'time') {
+                            state.timeConfig = currentVal;
+                            state.timeLeft = currentVal;
+                        } else {
+                            state.wordsConfig = currentVal;
+                        }
+                        buildDurationButtons();
+                        resetTest();
+                    });
+                    row.appendChild(cBtn);
+                }
+
+                var customBtn = document.createElement('button');
+                customBtn.className = 'config-btn icon-only';
+                customBtn.title = 'Custom amount';
+                customBtn.innerHTML = '<span class="icon">🛠</span>';
+                customBtn.addEventListener('click', function () {
+                    if (state.isActive) return;
+                    var promptMsg = state.mode === 'time' ? 'Enter custom time (seconds):' : 'Enter custom word count:';
+                    showPrompt(promptMsg, "text", "", function(val) {
+                        if (val) {
+                            var parsed = parseInt(val, 10);
+                            if (!isNaN(parsed) && parsed > 0) {
+                                if (state.mode === 'time') {
+                                    state.timeConfig = parsed;
+                                    state.timeLeft = parsed;
+                                } else {
+                                    state.wordsConfig = parsed;
+                                }
+                                buildDurationButtons();
+                                resetTest();
+                            }
+                        }
+                    });
+                });
+                row.appendChild(customBtn);
+                
+                var statLabelEl = document.querySelector('#statTime').nextElementSibling;
+                if (statLabelEl) {
+                    statLabelEl.textContent = state.mode === 'time' ? 'seconds' : 'time (s)';
+                }
+            }
+
+            function updateConfigUI() {
+                document.querySelectorAll('#configModifiers .config-btn').forEach(function(b) {
+                    if (state[b.dataset.mod]) {
+                        b.classList.add('active');
+                    } else {
+                        b.classList.remove('active');
+                    }
+                });
+                document.querySelectorAll('#configModes .config-btn').forEach(function(b) {
+                    if (b.dataset.mode === state.mode) {
+                        b.classList.add('active');
+                    } else {
+                        b.classList.remove('active');
+                    }
+                });
+            }
+
+            /* ═══════════════════════════════════════════════════
+               KEY HANDLER
+               ═══════════════════════════════════════════════════ */
+            function isTypingFocused() {
+                return currentView === 'view-typing';
+            }
+
+            function isMpFocused() {
+                return mpState.status === 'racing';
+            }
+
+            function handleKeyDown(e) {
+                // Don't capture keys when typing in inputs
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+                var modal = document.getElementById('promptModal');
+                if (modal && !modal.classList.contains('hidden')) return;
+
+                state.pressedKeys.add(e.code);
+                state.testedKeys.add(e.code);
+                state.lastKey = { code: e.code, label: keyLabelFromEvent(e) };
+                setKeyPressed(e.code, true);
+                updateLastKeyDisplay();
+                updateTestedCount();
+                playKeyClick();
+
+                if (e.ctrlKey || e.metaKey || e.altKey) return;
+
+                // Multiplayer racing handles its own input
+                if (isMpFocused()) {
+                    handleMpKeyDown(e);
+                    return;
+                }
+
+                if (state.isFinished) {
+                    if (e.code === 'Space') e.preventDefault();
+                    return;
+                }
+
+                if (e.code === 'Tab') { e.preventDefault(); return; }
+
+                if (e.code === 'Backspace') {
+                    e.preventDefault();
+                    if (!isTypingFocused()) return;
+                    if (state.currentInput.length > 0) {
+                        state.currentInput = state.currentInput.slice(0, -1);
+                        renderTypingArea();
+                    } else if (state.isActive && state.currentWordIndex > 0) {
+                        // Go back to previous word
+                        unfinalizeLastWord();
+                    }
+                    return;
+                }
+
+                if (e.code === 'Space') {
+                    e.preventDefault();
+                    if (e.repeat) return;
+                    if (!isTypingFocused()) return;
+
+                    // If not active and pressing space, don't do anything (monkeytype ignores space at start)
+                    if (!state.isActive) return;
+
+                    if (state.isActive) finalizeCurrentWord();
+                    return;
+                }
+
+                if (e.repeat) return;
+
+                if (e.key && e.key.length === 1) {
+                    e.preventDefault();
+                    if (!isTypingFocused()) return;
+
+                    if (!state.isActive) {
+                        startTest();
+                    }
+
+                    if (state.isActive) {
+                        state.currentInput += e.key;
+                        
+                        var target = state.words[state.currentWordIndex];
+                        if (state.mode === 'words' && state.currentWordIndex === state.wordsConfig - 1) {
+                            if (state.currentInput === target) {
+                                finalizeCurrentWord();
+                                return;
+                            }
+                        }
+                        
+                        renderTypingArea();
+                    }
+                }
+            }
+
+            function handleKeyUp(e) {
+                state.pressedKeys.delete(e.code);
+                setKeyPressed(e.code, false);
+            }
+
+            /* ═══════════════════════════════════════════════════
+               MULTIPLAYER — SOCKET.IO
+               ═══════════════════════════════════════════════════ */
+            var mpState = {
+                status: 'lobby',
+                duration: 30, // Default 30s
+                timeLeft: 30,
+                words: [],
+                currentWordIndex: 0,
+                currentInput: '',
+                typedWords: [],
+                isActive: false,
+                correctChars: 0,
+                totalCharsTyped: 0,
+                timerInterval: null,
+                playerName: localStorage.getItem('climaxkeys_name') || '',
+                players: [],
+                roomCode: null,
+                isHost: false,
+                lastRowTop: 0
+            };
+
+            var socket = null;
+            if (typeof io !== 'undefined') {
+                initSocket();
+            } else {
+                // Add socket.io script dynamically to head if not present
+                var s = document.createElement('script');
+                s.src = "/socket.io/socket.io.js";
+                s.onload = initSocket;
+                document.head.appendChild(s);
+            }
+
+            function initSocket() {
+                socket = io();
+
+                socket.on('room_state', function (data) {
+                    mpState.roomCode = data.code;
+                    mpState.status = data.status;
+                    mpState.isHost = (data.host === socket.id);
+                    mpState.players = data.players;
+
+                    if (mpState.status === 'waiting') {
+                        document.getElementById('mpLobby').classList.add('hidden');
+                        document.getElementById('mpRacing').classList.add('hidden');
+                        document.getElementById('mpResults').classList.add('hidden');
+                        document.getElementById('mpWaiting').classList.remove('hidden');
+
+                        document.getElementById('mpWaitingCode').textContent = data.code;
+                        document.getElementById('mpHostControls').classList.toggle('hidden', !mpState.isHost);
+
+                        var html = '';
+                        data.players.forEach(function (p, i) {
+                            html += '<li class="mp-player">';
+                            html += '<span class="mp-player-name">' + escapeHtml(p.name) + (p.id === socket.id ? ' (YOU)' : '') + (p.id === data.host ? ' 👑' : '') + '</span>';
+                            html += '</li>';
+                        });
+                        document.getElementById('mpWaitingPlayers').innerHTML = html;
+                    }
+                });
+
+                socket.on('countdown', function (count) {
+                    document.getElementById('mpWaiting').classList.add('hidden');
+                    document.getElementById('mpRacing').classList.remove('hidden');
+                    document.getElementById('mpRoomCode').textContent = mpState.roomCode;
+                    document.getElementById('mpCountdownMsg').textContent = 'Starting in ' + count + '...';
+
+                    if (count === 3 && !mpState.isActive) {
+                        mpState.words = mpGenerateWords(120);
+                        mpState.currentWordIndex = 0;
+                        mpState.currentInput = '';
+                        mpState.typedWords = [];
+                        mpState.correctChars = 0;
+                        mpState.totalCharsTyped = 0;
+                        mpState.timeLeft = mpState.duration;
+                        document.getElementById('mpTimeLeft').textContent = mpState.timeLeft;
+                        mpRenderPlayers();
+                        mpRenderWords();
+                    }
+                });
+
+                socket.on('race_started', function () {
+                    document.getElementById('mpCountdownMsg').textContent = 'RACE!';
+                    setTimeout(function () { document.getElementById('mpCountdownMsg').textContent = ''; }, 1000);
+
+                    mpState.status = 'racing';
+                    mpState.isActive = true;
+                    mpState.timeLeft = mpState.duration;
+                    clearInterval(mpState.timerInterval);
+                    mpState.timerInterval = setInterval(mpTick, 1000);
+                    document.getElementById('mpWordsDisplay').focus();
+                });
+
+                socket.on('player_update', function (data) {
+                    var p = mpState.players.find(function (x) { return x.id === data.id; });
+                    if (p) {
+                        p.progress = data.progress;
+                        p.wpm = data.wpm;
+                        if (mpState.status === 'racing') mpRenderPlayers();
+                    }
+                });
+            }
+
+            function mpGenerateWords(count) {
+                var out = [];
+                for (var i = 0; i < count; i++) out.push(WORD_LIST[Math.floor(Math.random() * WORD_LIST.length)]);
+                return out;
+            }
+
+            function mpCreateRoom() {
+                var name = document.getElementById('mpName').value.trim() || 'Player';
+                localStorage.setItem('climaxkeys_name', name);
+                if (socket) socket.emit('join_room', { create: true, name: name }, function (res) {
+                    if (res.error) alert(res.error);
+                });
+            }
+
+            function mpJoinRoom() {
+                var name = document.getElementById('mpName').value.trim() || 'Player';
+                var code = document.getElementById('mpCode').value.trim();
+                if (!code) return alert('Enter a room code');
+                localStorage.setItem('climaxkeys_name', name);
+                if (socket) socket.emit('join_room', { create: false, code: code, name: name }, function (res) {
+                    if (res.error) alert(res.error);
+                });
+            }
+
+            function mpStartRace() {
+                if (socket && mpState.isHost) {
+                    socket.emit('start_race', mpState.roomCode);
+                }
+            }
+
+            function mpTick() {
+                mpState.timeLeft--;
+                document.getElementById('mpTimeLeft').textContent = mpState.timeLeft;
+
+                if (socket) {
+                    socket.emit('update_progress', {
+                        code: mpState.roomCode,
+                        progress: mpState.currentWordIndex,
+                        wpm: calcMpWpm()
+                    });
+                }
+
+                mpRenderPlayers();
+                if (mpState.timeLeft <= 0) mpFinish();
+            }
+
+            function mpRenderPlayers() {
+                var list = document.getElementById('mpPlayerList');
+                var maxWords = Math.max(mpState.currentWordIndex, 1);
+                mpState.players.forEach(function (b) { if (b.progress > maxWords) maxWords = b.progress; });
+                maxWords = Math.max(maxWords, 1);
+
+                var players = mpState.players.map(function (p) {
+                    var isYou = socket && p.id === socket.id;
+                    var currentWpm = isYou ? calcMpWpm() : p.wpm;
+                    var words = isYou ? mpState.currentWordIndex : p.progress;
+                    return {
+                        name: p.name + (isYou ? ' (YOU)' : ''),
+                        words: words,
+                        wpm: currentWpm,
+                        isYou: isYou
+                    };
+                });
+
+                // Sort by words typed
+                players.sort(function (a, b) { return b.words - a.words; });
+
+                var html = '';
+                players.forEach(function (p, i) {
+                    var pct = Math.min(100, (p.words / maxWords) * 100);
+                    html += '<li class="mp-player' + (p.isYou ? ' you' : ' bot') + '">';
+                    html += '<span class="mp-player-rank">#' + (i + 1) + '</span>';
+                    html += '<span class="mp-player-name">' + escapeHtml(p.name) + '</span>';
+                    html += '<div class="mp-player-bar-wrap"><div class="mp-player-bar" style="width:' + pct + '%"></div></div>';
+                    html += '<span class="mp-player-wpm">' + p.wpm + ' WPM</span>';
+                    html += '</li>';
+                });
+                list.innerHTML = html;
+            }
+
+            function calcMpWpm() {
+                var elapsed = mpState.duration - mpState.timeLeft;
+                return elapsed > 0 ? Math.round((mpState.correctChars / 5) / (elapsed / 60)) : 0;
+            }
+
+            function mpRenderWords() {
+                var container = document.getElementById('mpWordsDisplay');
+                var startIdx = Math.max(0, mpState.currentWordIndex - 5);
+                var endIdx = Math.min(mpState.words.length, mpState.currentWordIndex + 20);
+                var html = '';
+                for (var wi = startIdx; wi < endIdx; wi++) {
+                    var word = mpState.words[wi];
+                    html += '<span class="word' + (wi === mpState.currentWordIndex ? ' current' : '') + '">';
+                    if (wi < mpState.currentWordIndex) {
+                        var typedDone = mpState.typedWords[wi] || '';
+                        for (var i = 0; i < word.length; i++) {
+                            var ch = typedDone[i];
+                            if (ch === undefined) html += '<span class="char missed">' + escapeHtml(word[i]) + '</span>';
+                            else if (ch === word[i]) html += '<span class="char correct">' + escapeHtml(word[i]) + '</span>';
+                            else html += '<span class="char incorrect">' + escapeHtml(word[i]) + '</span>';
+                        }
+                    } else if (wi === mpState.currentWordIndex) {
+                        var typed = mpState.currentInput;
+                        for (var j = 0; j < word.length; j++) {
+                            if (j < typed.length) {
+                                html += '<span class="char ' + (typed[j] === word[j] ? 'correct' : 'incorrect') + '">' + escapeHtml(word[j]) + '</span>';
+                            } else {
+                                html += '<span class="char">' + escapeHtml(word[j]) + '</span>';
+                            }
+                        }
+                        if (typed.length > word.length) {
+                            for (var k = word.length; k < typed.length; k++) html += '<span class="char extra">' + escapeHtml(typed[k]) + '</span>';
+                        }
+                        html += '<span class="cursor"></span>';
+                    } else {
+                        html += '<span class="char">' + escapeHtml(word) + '</span>';
+                    }
+                    html += '</span>';
+                }
+                container.innerHTML = html;
+                var cur = container.querySelector('.word.current');
+                if (cur) {
+                    var top = cur.offsetTop;
+                    if (top !== mpState.lastRowTop) {
+                        var targetScroll = top - 48;
+                        if (targetScroll < 0) targetScroll = 0;
+                        container.scrollTop = targetScroll;
+                        mpState.lastRowTop = top;
+                    }
+                }
+            }
+
+            function handleMpKeyDown(e) {
+                if (e.ctrlKey || e.metaKey || e.altKey) return;
+                if (mpState.status !== 'racing' || !mpState.isActive) return;
+                if (e.target.tagName === 'INPUT') return;
+
+                if (e.code === 'Tab') { e.preventDefault(); return; }
+
+                if (e.code === 'Backspace') {
+                    e.preventDefault();
+                    if (mpState.currentInput.length > 0) {
+                        mpState.currentInput = mpState.currentInput.slice(0, -1);
+                        mpRenderWords();
+                    }
+                    return;
+                }
+
+                if (e.code === 'Space') {
+                    e.preventDefault();
+                    if (e.repeat) return;
+                    // Finalize word
+                    var target = mpState.words[mpState.currentWordIndex];
+                    var s = scoreWord(target, mpState.currentInput);
+                    mpState.correctChars += s.correct;
+                    mpState.totalCharsTyped += s.total;
+                    mpState.typedWords[mpState.currentWordIndex] = mpState.currentInput;
+                    mpState.currentWordIndex++;
+                    mpState.currentInput = '';
+                    mpRenderWords();
+                    mpRenderPlayers();
+                    if (socket) {
+                        socket.emit('update_progress', {
+                            code: mpState.roomCode,
+                            progress: mpState.currentWordIndex,
+                            wpm: calcMpWpm()
+                        });
+                    }
+                    return;
+                }
+
+                if (e.repeat) return;
+                if (e.key && e.key.length === 1) {
+                    e.preventDefault();
+                    mpState.currentInput += e.key;
                     mpRenderWords();
                 }
-                return;
             }
 
-            if (e.code === 'Space') {
-                e.preventDefault();
-                if (e.repeat) return;
-                // Finalize word
-                var target = mpState.words[mpState.currentWordIndex];
-                var s = scoreWord(target, mpState.currentInput);
-                mpState.correctChars += s.correct;
-                mpState.totalCharsTyped += s.total;
-                mpState.typedWords[mpState.currentWordIndex] = mpState.currentInput;
-                mpState.currentWordIndex++;
-                mpState.currentInput = '';
-                mpRenderWords();
-                mpRenderPlayers();
-                return;
-            }
+            function mpFinish() {
+                clearInterval(mpState.timerInterval);
+                mpState.status = 'finished';
+                mpState.isActive = false;
+                playFinish();
 
-            if (e.repeat) return;
-            if (e.key && e.key.length === 1) {
-                e.preventDefault();
-                mpState.currentInput += e.key.toLowerCase();
-                mpRenderWords();
-            }
-        }
-
-        function mpFinish() {
-            clearInterval(mpState.timerInterval);
-            mpState.botIntervals.forEach(function(iv) { clearInterval(iv); });
-            mpState.status = 'finished';
-            mpState.isActive = false;
-            playFinish();
-
-            // Build final results
-            var elapsed = mpState.duration;
-            var playerWpm = elapsed > 0 ? Math.round((mpState.correctChars / 5) / (elapsed / 60)) : 0;
-
-            var results = [{
-                name: mpState.playerName + ' (YOU)',
-                wpm: playerWpm,
-                words: mpState.currentWordIndex,
-                isYou: true,
-            }];
-            mpState.bots.forEach(function(b) {
-                results.push({
-                    name: b.name,
-                    wpm: Math.round(b.wordsTyped / (elapsed / 60)),
-                    words: b.wordsTyped,
-                    isYou: false,
+                // Build final results
+                var players = mpState.players.map(function (p) {
+                    var isYou = socket && p.id === socket.id;
+                    var currentWpm = isYou ? calcMpWpm() : p.wpm;
+                    var words = isYou ? mpState.currentWordIndex : p.progress;
+                    return {
+                        name: p.name + (isYou ? ' (YOU)' : ''),
+                        words: words,
+                        wpm: currentWpm,
+                        isYou: isYou
+                    };
                 });
-            });
-            results.sort(function(a,b) { return b.wpm - a.wpm; });
+                players.sort(function (a, b) { return b.wpm - a.wpm; });
 
-            var winnerName = results[0].name;
-            document.getElementById('mpWinnerMsg').textContent = '🏆 ' + winnerName + ' WINS! 🏆';
+                var winnerName = players[0].name;
+                document.getElementById('mpWinnerMsg').textContent = '🏆 ' + winnerName + ' WINS! 🏆';
 
-            var html = '';
-            results.forEach(function(p, i) {
-                html += '<li class="mp-player' + (p.isYou ? ' you' : ' bot') + '">';
-                html += '<span class="mp-player-rank">#' + (i+1) + '</span>';
-                html += '<span class="mp-player-name">' + escapeHtml(p.name) + '</span>';
-                html += '<div class="mp-player-bar-wrap"><div class="mp-player-bar" style="width:100%"></div></div>';
-                html += '<span class="mp-player-wpm">' + p.wpm + ' WPM</span>';
-                html += '</li>';
-            });
-            document.getElementById('mpResultsList').innerHTML = html;
+                var html = '';
+                players.forEach(function (p, i) {
+                    html += '<li class="mp-player' + (p.isYou ? ' you' : ' bot') + '">';
+                    html += '<span class="mp-player-rank">#' + (i + 1) + '</span>';
+                    html += '<span class="mp-player-name">' + escapeHtml(p.name) + '</span>';
+                    html += '<div class="mp-player-bar-wrap"><div class="mp-player-bar" style="width:100%"></div></div>';
+                    html += '<span class="mp-player-wpm">' + p.wpm + ' WPM</span>';
+                    html += '</li>';
+                });
+                document.getElementById('mpResultsList').innerHTML = html;
 
-            document.getElementById('mpRacing').classList.add('hidden');
-            document.getElementById('mpResults').classList.remove('hidden');
-        }
+                document.getElementById('mpRacing').classList.add('hidden');
+                document.getElementById('mpResults').classList.remove('hidden');
+            }
 
-        function mpReset() {
-            clearInterval(mpState.timerInterval);
-            mpState.botIntervals.forEach(function(iv) { clearInterval(iv); });
-            mpState.status = 'lobby';
-            mpState.isActive = false;
-            document.getElementById('mpRacing').classList.add('hidden');
-            document.getElementById('mpResults').classList.add('hidden');
-            document.getElementById('mpLobby').classList.remove('hidden');
-        }
+            function mpLeave() {
+                if (socket) {
+                    socket.disconnect();
+                    socket.connect();
+                }
+                mpReset();
+            }
 
-        /* ═══════════════════════════════════════════════════
-           ACTIVE SECTION TRACKING
-           ═══════════════════════════════════════════════════ */
-        function updateActiveSections() {
-            var panels = [
-                { id: 'keytestPanel', section: 'section-keytest' },
-                { id: 'typingPanel', section: 'section-typing' },
-                { id: 'mpPanel', section: 'section-mp' },
-            ];
-            var viewMid = window.innerHeight / 2;
-            panels.forEach(function(p) {
-                var el = document.getElementById(p.id);
-                var rect = el.getBoundingClientRect();
-                var active = rect.top < viewMid && rect.bottom > viewMid * 0.5;
-                el.classList.toggle('active-section', active);
-            });
-        }
+            function mpReset() {
+                clearInterval(mpState.timerInterval);
+                mpState.status = 'lobby';
+                mpState.isActive = false;
+                document.getElementById('mpWaiting').classList.add('hidden');
+                document.getElementById('mpRacing').classList.add('hidden');
+                document.getElementById('mpResults').classList.add('hidden');
+                document.getElementById('mpLobby').classList.remove('hidden');
+            }
 
-        /* ═══════════════════════════════════════════════════
-           INIT
-           ═══════════════════════════════════════════════════ */
-        function init() {
-            buildKeyboard(document.getElementById('keyboard'));
-            document.getElementById('totalKeyCount').textContent = keyEls.size;
-            buildDurationButtons();
-            mpBuildDurationButtons();
-            state.words = generateWords(60);
-            renderTypingArea();
-            updateStatsDisplay();
-            updatePBDisplay();
-            updateComboDisplay();
-            updateStreakDisplay();
+            /* ═══════════════════════════════════════════════════
+               VIEW ROUTING
+               ═══════════════════════════════════════════════════ */
+            var currentView = 'view-keytest';
 
-            document.getElementById('restartBtn').addEventListener('click', resetTest);
-            document.getElementById('tryAgainBtn').addEventListener('click', resetTest);
-            document.getElementById('mpStartBtn').addEventListener('click', mpStartRace);
-            document.getElementById('mpRestartBtn').addEventListener('click', mpReset);
-            document.getElementById('mpPlayAgainBtn').addEventListener('click', function() { mpReset(); mpStartRace(); });
+            function switchView(viewId) {
+                currentView = viewId;
+                document.querySelectorAll('.view').forEach(function (el) {
+                    el.classList.toggle('active', el.id === viewId);
+                });
+                document.querySelectorAll('.nav-link').forEach(function (el) {
+                    el.classList.toggle('active', el.dataset.target === viewId);
+                });
 
-            window.addEventListener('keydown', handleKeyDown);
-            window.addEventListener('keyup', handleKeyUp);
-            window.addEventListener('blur', function() {
-                state.pressedKeys.forEach(function(code) { setKeyPressed(code, false); });
-                state.pressedKeys.clear();
-            });
+                // If switching away from typing race, reset it if it's active
+                if (viewId !== 'view-typing' && state.isActive) {
+                    resetTest();
+                }
+                // If switching away from MP, reset lobby
+                if (viewId !== 'view-mp' && mpState.status !== 'lobby') {
+                    mpReset();
+                }
+                window.scrollTo(0, 0);
+            }
 
-            window.addEventListener('scroll', updateActiveSections, { passive: true });
-            updateActiveSections();
-        }
+            /* ═══════════════════════════════════════════════════
+               INIT
+               ═══════════════════════════════════════════════════ */
+            function init() {
+                // Modal Listeners
+                document.getElementById('promptOkBtn').addEventListener('click', function() { closePrompt(true); });
+                document.getElementById('promptCancelBtn').addEventListener('click', function() { closePrompt(false); });
+                document.getElementById('promptInput').addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') { e.preventDefault(); closePrompt(true); }
+                    if (e.key === 'Escape') { e.preventDefault(); closePrompt(false); }
+                });
+                document.getElementById('promptTextarea').addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' && e.ctrlKey) { e.preventDefault(); closePrompt(true); }
+                    if (e.key === 'Escape') { e.preventDefault(); closePrompt(false); }
+                });
 
-        init();
-    })();
+                buildKeyboard(document.getElementById('keyboard'));
+                document.getElementById('totalKeyCount').textContent = keyEls.size;
+                buildDurationButtons();
+
+                state.words = generateWords(60);
+                renderTypingArea();
+                updateStatsDisplay();
+                updatePBDisplay();
+                updateComboDisplay();
+                updateStreakDisplay();
+
+                // Config buttons listeners
+                document.querySelectorAll('#configModifiers .config-btn').forEach(function(b) {
+                    b.addEventListener('click', function() {
+                        if (state.isActive) return;
+                        state[this.dataset.mod] = !state[this.dataset.mod];
+                        updateConfigUI();
+                        resetTest();
+                    });
+                });
+                document.querySelectorAll('#configModes .config-btn:not(.disabled)').forEach(function(b) {
+                    b.addEventListener('click', function() {
+                        if (state.isActive || b.classList.contains('disabled')) return;
+                        
+                        var requestedMode = this.dataset.mode;
+                        if (requestedMode === 'custom') {
+                            showPrompt('Enter custom text to type:', 'textarea', '', function(text) {
+                                if (!text || text.trim().length === 0) {
+                                    return; // Cancelled
+                                }
+                                state.customText = text.trim();
+                                state.mode = requestedMode;
+                                updateConfigUI();
+                                buildDurationButtons();
+                                resetTest();
+                            });
+                            return; // callback handles the rest
+                        }
+                        
+                        state.mode = requestedMode;
+                        updateConfigUI();
+                        buildDurationButtons();
+                        resetTest();
+                    });
+                });
+
+                document.getElementById('restartBtn').addEventListener('click', resetTest);
+                document.getElementById('tryAgainBtn').addEventListener('click', resetTest);
+
+                // Add listeners for multiplayer buttons
+                document.getElementById('mpCreateBtn').addEventListener('click', mpCreateRoom);
+                document.getElementById('mpJoinBtn').addEventListener('click', mpJoinRoom);
+                document.getElementById('mpStartBtn').addEventListener('click', mpStartRace);
+                document.getElementById('mpAddBotBtn').addEventListener('click', function () {
+                    if (socket && mpState.isHost) socket.emit('add_bot', mpState.roomCode);
+                });
+                document.getElementById('mpWaitingLeaveBtn').addEventListener('click', mpLeave);
+                document.getElementById('mpLeaveBtn').addEventListener('click', mpLeave);
+                document.getElementById('mpPlayAgainBtn').addEventListener('click', mpLeave);
+
+                // Init local storage name
+                var savedName = localStorage.getItem('climaxkeys_name');
+                if (savedName) document.getElementById('mpName').value = savedName;
+
+                window.addEventListener('keydown', handleKeyDown);
+                window.addEventListener('keyup', handleKeyUp);
+                window.addEventListener('blur', function () {
+                    state.pressedKeys.forEach(function (code) { setKeyPressed(code, false); });
+                    state.pressedKeys.clear();
+                });
+
+                document.querySelectorAll('.nav-link').forEach(function (link) {
+                    link.addEventListener('click', function (e) {
+                        switchView(this.dataset.target);
+                    });
+                });
+                switchView('view-keytest');
+            }
+
+            init();
+        })();
     </script>
 </body>
 
