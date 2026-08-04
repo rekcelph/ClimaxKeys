@@ -7,7 +7,10 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-app.use(express.static(__dirname, {
+const db = require('./db');
+
+app.use(express.json());
+app.use(express.static(path.join(__dirname, '../public'), {
     setHeaders: (res, path) => {
         res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
     }
@@ -15,8 +18,63 @@ app.use(express.static(__dirname, {
 
 app.get('/', (req, res) => {
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
-    res.sendFile(path.join(__dirname, 'main.html'));
+    res.sendFile(path.join(__dirname, '../public', 'index.html'));
 });
+
+// Database API Routes
+app.post('/api/scores', async (req, res) => {
+    try {
+        const { username, mode, wpm, accuracy } = req.body;
+        if (!username || !mode || wpm == null || accuracy == null) {
+            return res.status(400).json({ error: 'Missing required fields' });
+        }
+
+        // Get or create user
+        let userResult = await db.query('SELECT id FROM users WHERE username = $1', [username]);
+        let userId;
+        
+        if (userResult.rows.length === 0) {
+            const insertUser = await db.query(
+                'INSERT INTO users (username) VALUES ($1) RETURNING id',
+                [username]
+            );
+            userId = insertUser.rows[0].id;
+        } else {
+            userId = userResult.rows[0].id;
+        }
+
+        // Save score
+        await db.query(
+            'INSERT INTO high_scores (user_id, mode, wpm, accuracy) VALUES ($1, $2, $3, $4)',
+            [userId, mode, wpm, accuracy]
+        );
+
+        res.json({ success: true });
+    } catch (err) {
+        console.error('Error saving score:', err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+app.get('/api/scores/top', async (req, res) => {
+    try {
+        const mode = req.query.mode || 'time';
+        const result = await db.query(`
+            SELECT u.username, h.wpm, h.accuracy, h.created_at
+            FROM high_scores h
+            JOIN users u ON h.user_id = u.id
+            WHERE h.mode = $1
+            ORDER BY h.wpm DESC
+            LIMIT 10
+        `, [mode]);
+        
+        res.json(result.rows);
+    } catch (err) {
+        console.error('Error fetching scores:', err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 
 // Room state storage
 const rooms = new Map();
@@ -204,6 +262,10 @@ io.on('connection', (socket) => {
 });
 
 const PORT = process.env.PORT || 8080;
-server.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}`);
+
+// Initialize Database then start server
+db.initDb().then(() => {
+    server.listen(PORT, () => {
+        console.log(`Server listening on port ${PORT}`);
+    });
 });

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="description"
+        content="Climax Keys — A retro-styled keyboard blueprint, typing speed test, and multiplayer racing arena. Test every key and compete against the clock or opponents." />
+    <title>Climax Keys — Keyboard Blueprint &amp; Typing Speed Test</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⌨️</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Share+Tech+Mono&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <nav class="top-bar">
+        <div class="top-bar-left">
+            <div class="nav-brand">CLIMAX_KEYS</div>
+            <div class="nav-links">
+                <button class="nav-link active" data-target="view-keytest">01 Key Test</button>
+                <button class="nav-link" data-target="view-typing">02 Speed Test</button>
+                <button class="nav-link" data-target="view-mp">03 Multiplayer</button>
+            </div>
+        </div>
+        <button class="sound-toggle" id="soundToggle" title="Toggle sound">🔇</button>
+    </nav>
+
+    <div id="app">
+
+        <!-- ══════════════════════════════════════════════════
+             SECTION 1: KEY TEST
+             ══════════════════════════════════════════════════ -->
+        <div class="view active" id="view-keytest">
+            <div class="section-header">
+                <span class="section-num">01</span> KEY TEST
+            </div>
+            <div class="panel" id="keytestPanel">
+                <p class="hint">Press any key — it'll trace onto the diagram below.</p>
+                <div class="keytest-layout">
+                    <div class="keytest-info">
+                        <div class="last-key-box" id="lastKeyBox">–</div>
+                        <div class="last-key-code" id="lastKeyCode">waiting</div>
+                        <p class="tested-progress">traced: <span id="testedCount">0</span>/<span
+                                id="totalKeyCount">0</span></p>
+                    </div>
+                    <div class="keytest-keyboard-wrap">
+                        <div id="keyboardSection">
+                            <div class="reg-mark tl"></div>
+                            <div class="reg-mark tr"></div>
+                            <div class="reg-mark bl"></div>
+                            <div class="reg-mark br"></div>
+                            <div id="keyboard"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════════
+             SECTION 2: SPEED TEST
+             ══════════════════════════════════════════════════ -->
+        <div class="view" id="view-typing">
+            <div class="section-header">
+                <span class="section-num">02</span> SPEED TEST
+            </div>
+            <div class="panel" id="typingPanel">
+                <div class="typing-config-bar">
+                    <div class="config-group" id="configModifiers">
+                        <button class="config-btn" data-mod="punctuation"><span class="icon">@</span> punctuation</button>
+                        <button class="config-btn" data-mod="numbers"><span class="icon">#</span> numbers</button>
+                    </div>
+                    <div class="config-group" id="configModes">
+                        <button class="config-btn active" data-mode="time"><span class="icon">⏱</span> time</button>
+                        <button class="config-btn" data-mode="words"><span class="icon">A</span> words</button>
+                        <button class="config-btn" data-mode="quote"><span class="icon">"</span> quote</button>
+                        <button class="config-btn" data-mode="zen"><span class="icon">⛰</span> zen</button>
+                        <button class="config-btn" data-mode="custom"><span class="icon">🛠</span> custom</button>
+                    </div>
+                    <div class="config-group" id="durationRow"></div>
+                </div>
+                <p class="hint">pick a duration, then start typing to begin</p>
+                <div class="stats-row" id="typingStats">
+                    <div class="stat">
+                        <div class="stat-value" id="statTime">30</div>
+                        <div class="stat-label">seconds</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="statWpm">0</div>
+                        <div class="stat-label">wpm</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="statAcc">100%</div>
+                        <div class="stat-label">accuracy</div>
+                    </div>
+                </div>
+                <div class="game-bar" id="gameBar">
+                    <div class="combo-display">COMBO: <span class="combo-val" id="comboVal">×1</span></div>
+                    <div class="streak-display">STREAK: <span class="streak-val" id="streakVal">0</span></div>
+                    <div class="pb-display">BEST: <span class="pb-val" id="pbVal">--</span> WPM</div>
+                </div>
+                <div class="words-display" id="wordsDisplay"></div>
+                <div class="restart-row">
+                    <button class="btn" id="restartBtn">Restart</button>
+                </div>
+
+                <div class="results hidden" id="resultsPanel">
+                    <div class="results-wpm" id="resultsWpm">0</div>
+                    <div class="results-label">words per minute</div>
+                    <div id="rankBadge"></div>
+                    <div id="newRecordMsg"></div>
+                    <div class="results-stats">
+                        <div class="stat">
+                            <div class="stat-value" id="resultsAcc">0%</div>
+                            <div class="stat-label">accuracy</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value" id="resultsChars">0</div>
+                            <div class="stat-label">characters</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value" id="resultsStreak">0</div>
+                            <div class="stat-label">best streak</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value" id="resultsCombo">×1</div>
+                            <div class="stat-label">max combo</div>
+                        </div>
+                    </div>
+                    <button class="btn primary" id="tryAgainBtn">Try again</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════════
+             SECTION 3: MULTIPLAYER ARENA
+             ══════════════════════════════════════════════════ -->
+        <div class="view" id="view-mp">
+            <div class="section-header">
+                <span class="section-num">03</span> MULTIPLAYER ARENA
+            </div>
+            <div class="panel" id="mpPanel">
+                <p class="hint">race against bots (or real players with server)</p>
+
+                <!-- Lobby state -->
+                <div id="mpLobby">
+                    <div class="mp-controls">
+                        <input class="mp-input" id="mpName" type="text" placeholder="Your name" maxlength="12">
+                    </div>
+                    <div class="mp-controls" style="margin-top: 15px;">
+                        <button class="btn amber" id="mpCreateBtn">Create Room</button>
+                    </div>
+                    <div class="mp-controls" style="margin-top: 15px;">
+                        <input class="mp-input" id="mpCode" type="text" placeholder="CODE" maxlength="4"
+                            style="width:100px; text-transform:uppercase; text-align:center;">
+                        <button class="btn" id="mpJoinBtn">Join Room</button>
+                    </div>
+                </div>
+
+                <!-- Waiting Room state -->
+                <div id="mpWaiting" class="hidden">
+                    <div class="mp-room-info">
+                        ROOM CODE: <span class="mp-room-code" id="mpWaitingCode"></span>
+                    </div>
+                    <p class="hint">Waiting for players...</p>
+                    <ul class="mp-player-list" id="mpWaitingPlayers"></ul>
+                    <div class="restart-row">
+                        <button class="btn" id="mpWaitingLeaveBtn">Leave Room</button>
+                        <span id="mpHostControls" class="hidden">
+                            <button class="btn" id="mpAddBotBtn">Add Bot</button>
+                            <button class="btn primary" id="mpStartBtn">Start Race</button>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Racing state -->
+                <div id="mpRacing" class="hidden">
+                    <div class="mp-room-info">
+                        ROOM: <span class="mp-room-code" id="mpRoomCode"></span>
+                        <span id="mpCountdownMsg" style="color:var(--amber); margin-left:15px;"></span>
+                        &nbsp;│&nbsp; <span id="mpTimeLeft">30</span>s remaining
+                    </div>
+                    <ul class="mp-player-list" id="mpPlayerList"></ul>
+                    <div class="mp-words-display" id="mpWordsDisplay"></div>
+                    <div class="restart-row">
+                        <button class="btn" id="mpLeaveBtn">Leave Race</button>
+                    </div>
+                </div>
+
+                <!-- Finished state -->
+                <div id="mpResults" class="hidden">
+                    <div class="mp-winner" id="mpWinnerMsg"></div>
+                    <ul class="mp-player-list" id="mpResultsList"></ul>
+                    <div class="restart-row">
+                        <button class="btn primary" id="mpPlayAgainBtn">Leave to Lobby</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>READY. &nbsp;│&nbsp; SYS OK &nbsp;│&nbsp; PHYSICAL KB RECOMMENDED</footer>
+    </div>
+
+    <!-- Custom Prompt Modal -->
+    <div id="promptModal" class="modal-overlay hidden">
+        <div id="modalBox" class="modal-box retro-panel">
+            <h3 id="promptTitle" class="modal-title">Enter value</h3>
+            
+            <input type="text" id="promptInput" class="retro-input hidden" autocomplete="off">
+            
+            <div id="promptAdvanced" class="prompt-advanced hidden">
+                <div class="pa-left">
+                    <div class="pa-toolbar">
+                        <button class="retro-btn small"><span class="icon">💾</span> SAVE</button>
+                        <button class="retro-btn small"><span class="icon">📁</span> SAVED TEXTS</button>
+                    </div>
+                    <textarea id="promptTextarea" class="retro-textarea" placeholder="Paste or type custom text here..."></textarea>
+                </div>
+                <div class="pa-right">
+                    <div class="pa-section">
+                        <div class="pa-label">MODE</div>
+                        <div class="pa-desc">Change the way words are generated.</div>
+                        <div class="config-group">
+                            <button class="config-btn active">simple</button>
+                            <button class="config-btn disabled">repeat</button>
+                            <button class="config-btn disabled">shuffle</button>
+                            <button class="config-btn disabled">random</button>
+                        </div>
+                    </div>
+                    
+                    <div class="pa-section">
+                        <div class="pa-label">WORD DELIMITER</div>
+                        <div class="pa-desc">Change how words are separated. Using the pipe delimiter allows you to randomize groups of words.</div>
+                        <div class="config-group">
+                            <button class="config-btn disabled">pipe</button>
+                            <button class="config-btn active">space</button>
+                        </div>
+                    </div>
+                    
+                    <div class="pa-section" style="display:flex; flex-direction:column; gap:10px;">
+                        <button class="retro-btn small block disabled"><span class="icon">📄</span> OPEN FILE</button>
+                        <button class="retro-btn small block disabled"><span class="icon">🔍</span> WORDS FILTER</button>
+                        <button class="retro-btn small block disabled"><span class="icon">⚙</span> CUSTOM GENERATOR</button>
+                    </div>
+                    
+                    <div class="pa-section">
+                        <div class="pa-label">REMOVE ZERO-WIDTH CHARACTERS</div>
+                        <div class="pa-desc">Fully remove zero-width characters.</div>
+                        <button class="retro-btn small block disabled">APPLY</button>
+                    </div>
+                    
+                    <div class="pa-section">
+                        <div class="pa-label">REPLACE NEW LINES WITH SPACES</div>
+                        <div class="pa-desc">Replace all new line characters with spaces.</div>
+                        <div class="config-group">
+                            <button class="config-btn active">space</button>
+                            <button class="config-btn disabled">period + space</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <button id="promptCancelBtn" class="retro-btn">CANCEL</button>
+                <button id="promptOkBtn" class="retro-btn primary">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/app.js"></script>
+</body>
+
+</html>
