@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+"""Replace this deterministic helper or remove it if the skill does not need a script."""
+
+from __future__ import annotations
+
+import argparse
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.parse_args()
+    print("Replace scripts/example.py with real deterministic behavior.")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
