@@ -16,10 +16,11 @@ Climax Keys is a meticulously designed typing application featuring a nostalgic 
 * **Diagnostics:** View exact key codes and track how many physical keys you have successfully tested on your board.
 
 ### 02 Speed Test
-* **Multiple Modes:** Compete against the clock (Time mode) or type a specific number of words (Words mode).
+* **Multiple Modes:** Compete against the clock (Time mode), type a specific number of words (Words mode), practice classic excerpts (Quote mode), or type freely with no limits (Zen mode).
 * **Custom Inputs:** Use the fully custom-built retro modal to enter exact time durations, specific word counts, or paste massive paragraphs of your own custom text.
 * **Game Mechanics:** Earn streaks and combos for typing without errors. Achieve high WPM (Words Per Minute) to earn ranks (from F to SS).
 * **Modifiers:** Toggle numbers and punctuation for an extra challenge.
+* **Persistent Leaderboards:** Your Personal Bests and global high scores are saved persistently in a PostgreSQL database.
 
 ### 03 Multiplayer Arena
 * **Real-time Racing:** Create a room and share the 4-letter room code with friends to race in real-time.
@@ -30,14 +31,15 @@ Climax Keys is a meticulously designed typing application featuring a nostalgic 
 
 ## 🛠️ Technology Stack
 
-* **Frontend:** Vanilla HTML, CSS, and JavaScript. Zero frontend frameworks, optimized for raw performance and DOM manipulation.
+* **Frontend:** Vanilla HTML, CSS, and JavaScript structured into a clean component layout (`public/css`, `public/js`). Zero frontend frameworks, optimized for raw performance and DOM manipulation.
 * **Backend:** Node.js with Express.
+* **Database:** PostgreSQL integrated via `node-postgres` for persistent high scores and global leaderboards.
 * **Multiplayer:** Socket.io for low-latency WebSocket communication.
-* **Deployment:** Docker support included out of the box.
+* **Deployment:** Multi-container `docker-compose` environment included out of the box.
 
 ---
 
-## 🚀 How to Run (Local)
+## 🚀 How to Run (Local without Docker)
 
 1. **Clone the repository:**
    ```bash
@@ -45,34 +47,34 @@ Climax Keys is a meticulously designed typing application featuring a nostalgic 
    cd ClimaxKeys
    ```
 
-2. **Install dependencies:**
+2. **Setup PostgreSQL:**
+   Ensure you have a local PostgreSQL instance running. Set up your environment variables or modify `server/db.js` with your database credentials.
+
+3. **Install dependencies:**
    ```bash
    npm install
    ```
 
-3. **Start the server:**
+4. **Start the server:**
    ```bash
    npm start
    ```
 
-4. **Play:**
+5. **Play:**
    Open your browser and navigate to `http://localhost:8080`.
 
 ---
 
-## 🐳 How to Run (Docker)
+## 🐳 How to Run (Docker Compose)
 
-You can easily containerize and run the application using the included Dockerfile.
+The easiest way to run the full application (Node server + PostgreSQL database) is using Docker Compose.
 
-1. **Build the image:**
+1. **Spin up the environment:**
    ```bash
-   docker build -t climax-keys .
+   docker-compose up -d --build
    ```
 
-2. **Run the container:**
-   ```bash
-   docker run -p 8080:8080 climax-keys
-   ```
-
-3. **Play:**
+2. **Play:**
    Open your browser and navigate to `http://localhost:8080`.
+   
+   *The database schema will automatically initialize on first launch.*
