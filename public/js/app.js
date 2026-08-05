@@ -100,24 +100,26 @@
 
             var WORD_LIST = ["the", "be", "to", "of", "and", "a", "in", "that", "have", "it", "for", "not", "on", "with", "he", "as", "you", "do", "at", "this", "but", "his", "by", "from", "they", "we", "say", "her", "she", "or", "an", "will", "my", "one", "all", "would", "there", "their", "what", "so", "up", "out", "if", "about", "who", "get", "which", "go", "me", "when", "make", "can", "like", "time", "no", "just", "him", "know", "take", "people", "into", "year", "your", "good", "some", "could", "them", "see", "other", "than", "then", "now", "look", "only", "come", "its", "over", "think", "also", "back", "after", "use", "two", "how", "our", "work", "first", "well", "way", "even", "new", "want", "because", "any", "these", "give", "day", "most", "us", "name", "home", "water", "room", "small", "found", "thought", "still", "family", "hand", "world", "school", "story", "sound", "above", "together", "group", "often", "run", "important", "until", "side", "feet", "night", "walk", "white", "sea", "four", "state", "book", "hear", "stop", "later", "idea", "enough", "eat", "face", "watch", "real", "young", "talk", "soon", "song", "mountain", "river", "city", "light", "kind", "child", "place", "right", "next", "sure", "mean", "keep", "last", "long", "both", "need", "feel", "seem", "ask", "tell", "end", "why", "area", "money", "month", "lot", "study", "word", "business", "issue", "head", "house", "service", "friend", "father", "power", "hour", "game", "line", "member", "law", "car", "community", "president", "team", "minute", "body", "information", "parent", "others", "level", "office", "door", "health", "person", "art", "war", "history", "party", "result", "change", "morning", "reason", "research", "girl", "guy", "moment", "air", "teacher", "force", "education"];
             
-            var QUOTES = {
-                short: [
-                    "Hack the planet!",
-                    "There is no spoon.",
-                    "Information wants to be free.",
-                    "The quietest people have the loudest minds."
-                ],
-                medium: [
-                    "I've seen things you people wouldn't believe. Attack ships on fire off the shoulder of Orion.",
-                    "The sky above the port was the color of television, tuned to a dead channel.",
-                    "We are all connected; To each other, biologically. To the earth, chemically. To the rest of the universe atomically."
-                ],
-                long: [
-                    "A hacker to me is someone intense about something, someone who figures things out and makes something out of it.",
-                    "I am putting myself to the fullest possible use, which is all I think that any conscious entity can ever hope to do.",
-                    "Cyberspace. A consensual hallucination experienced daily by billions of legitimate operators, in every nation."
-                ]
-            };
+            var QUOTES = null;
+
+            function fetchQuotes() {
+                return fetch('/api/quotes')
+                    .then(function(res) { return res.json(); })
+                    .then(function(data) {
+                        QUOTES = data;
+                        return data;
+                    })
+                    .catch(function(err) {
+                        console.error('Failed to fetch quotes:', err);
+                        // Fallback quotes in case the API is unreachable
+                        QUOTES = {
+                            short: ["Hack the planet!"],
+                            medium: ["The sky above the port was the color of television, tuned to a dead channel."],
+                            long: ["A hacker to me is someone intense about something, someone who figures things out and makes something out of it."]
+                        };
+                        return QUOTES;
+                    });
+            }
 
             var state = {
                 pressedKeys: new Set(),
@@ -621,7 +623,8 @@
                 if (state.mode === 'custom') {
                     state.words = state.customText ? state.customText.split(/\s+/) : ['custom', 'text', 'missing'];
                 } else if (state.mode === 'quote') {
-                    var list = QUOTES[state.quoteConfig || 'medium'];
+                    var quoteData = QUOTES || { medium: ["Loading quotes..."] };
+                    var list = quoteData[state.quoteConfig || 'medium'] || quoteData['medium'];
                     var quote = list[Math.floor(Math.random() * list.length)];
                     state.words = quote.split(/\s+/);
                 } else if (state.mode === 'zen') {
@@ -1394,6 +1397,8 @@
                     });
                 });
                 switchView('view-keytest');
+                // Pre-fetch quotes from server
+                fetchQuotes();
             }
 
             init();

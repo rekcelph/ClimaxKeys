@@ -7,7 +7,8 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-const db = require('./db');
+const Database = require('./db');
+const db = new Database();
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public'), {
@@ -75,6 +76,16 @@ app.get('/api/scores/top', async (req, res) => {
     }
 });
 
+// Quotes API Route
+app.get('/api/quotes', (req, res) => {
+    try {
+        const quotes = require('./data/quotes.json');
+        res.json(quotes);
+    } catch (err) {
+        console.error('Error loading quotes:', err);
+        res.status(500).json({ error: 'Failed to load quotes' });
+    }
+});
 
 // Room state storage
 const rooms = new Map();
@@ -264,7 +275,7 @@ io.on('connection', (socket) => {
 const PORT = process.env.PORT || 8080;
 
 // Initialize Database then start server
-db.initDb().then(() => {
+db.connect().then(() => {
     server.listen(PORT, () => {
         console.log(`Server listening on port ${PORT}`);
     });
