@@ -1,15 +1,13 @@
-# Climax Keys ⌨️
+# Climax Keys
 
 > **A retro-styled keyboard blueprint, typing speed test, and multiplayer racing arena.**
 
 ![Climax Keys](https://img.shields.io/badge/UI-Retro_Terminal-33ff33?style=for-the-badge)
 ![Multiplayer](https://img.shields.io/badge/Multiplayer-Socket.io-amber?style=for-the-badge)
 
-Climax Keys is a meticulously designed typing application featuring a nostalgic neon-green CRT terminal aesthetic. It offers an interactive keyboard tester, advanced speed typing modes (with combos, streaks, and ranks), and a real-time multiplayer arena where you can race against your friends or AI bots.
+**Climax Keys** is a meticulously designed typing application featuring a nostalgic neon-green CRT terminal aesthetic. It offers an interactive keyboard tester, advanced speed typing modes (with combos, streaks, and ranks), and a real-time multiplayer arena where you can race against your friends or AI bots.
 
----
-
-## ✨ Features
+## Features
 
 ### 01 Key Test
 * **Interactive Tracing:** Press any key on your keyboard to highlight it on the virtual keyboard blueprint.
@@ -29,7 +27,7 @@ Climax Keys is a meticulously designed typing application featuring a nostalgic 
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 * **Frontend:** Vanilla HTML, CSS, and JavaScript structured into a clean component layout (`public/css`, `public/js`). Zero frontend frameworks, optimized for raw performance and DOM manipulation.
 * **Backend:** Node.js with Express.
@@ -39,7 +37,7 @@ Climax Keys is a meticulously designed typing application featuring a nostalgic 
 
 ---
 
-## 🚀 How to Run (Local without Docker)
+## How to Run (No Docker)
 
 1. **Clone the repository:**
    ```bash
@@ -65,16 +63,15 @@ Climax Keys is a meticulously designed typing application featuring a nostalgic 
 
 ---
 
-## 🐳 How to Run (Docker Compose)
+## How to Run (With Docker)
 
 The easiest way to run the full application (Node server + PostgreSQL database) is using Docker Compose.
 
 1. **Spin up the environment:**
+
    ```bash
-   docker-compose up -d --build
+   docker-compose up --build
    ```
 
 2. **Play:**
    Open your browser and navigate to `http://localhost:8080`.
-   
-   *The database schema will automatically initialize on first launch.*

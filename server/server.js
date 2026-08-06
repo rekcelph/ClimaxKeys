@@ -10,6 +10,10 @@ const io = new Server(server);
 const Database = require('./db');
 const db = new Database();
 
+const {exec} = require("child_process");
+
+const child = exec("psql --version");
+
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public'), {
     setHeaders: (res, path) => {
