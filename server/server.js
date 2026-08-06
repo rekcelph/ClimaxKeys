@@ -280,18 +280,23 @@ const PORT = process.env.PORT || 8080;
 
 // check if pos gres is available
 
-if(child.exitCode == 0){
-    console.log("Postgres found. Starting postgres");
+child.on("exit",(code)=>{
+    
+    if(code === 0){
+            console.log("Postgres found. Starting postgres");
     db.connect().then(() => {
-        server.listen(PORT, () => {
-            console.log(`Server listening on port ${PORT}, at http://localhost:${PORT}`);
+            server.listen(PORT, () => {
+                console.log(`Server listening on port ${PORT}, at http://localhost:${PORT}`);
+            });
         });
+    }
+    else {
+        console.log("Postgres not found. Skipping...");
+
+        server.listen(PORT, () => {
+        console.log(`Server listening on port ${PORT}, at http://localhost:${PORT}`);
     });
 }
-else {
-console.log("Postgres not found. Skipping...");
 
-server.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}, at http://localhost:${PORT}`);
 });
-}
+
