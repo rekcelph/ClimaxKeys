@@ -70,7 +70,7 @@ The easiest way to run the full application (Node server + PostgreSQL database) 
 1. **Spin up the environment:**
 
    ```bash
-   docker-compose up --build
+   docker-compose up -build
    ```
 
 2. **Play:**
