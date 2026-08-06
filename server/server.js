@@ -274,9 +274,20 @@ io.on('connection', (socket) => {
 
 const PORT = process.env.PORT || 8080;
 
-// Initialize Database then start server
-db.connect().then(() => {
-    server.listen(PORT, () => {
-        console.log(`Server listening on port ${PORT}`);
+// check if pos gres is available
+
+if(child.exitCode == 0){
+    console.log("Postgres found. Starting postgres");
+    db.connect().then(() => {
+        server.listen(PORT, () => {
+            console.log(`Server listening on port ${PORT}, at http://localhost:${PORT}`);
+        });
     });
+}
+else {
+console.log("Postgres not found. Skipping...");
+
+server.listen(PORT, () => {
+    console.log(`Server listening on port ${PORT}, at http://localhost:${PORT}`);
 });
+}
