@@ -10,6 +10,10 @@ const io = new Server(server);
 const Database = require('./db');
 const db = new Database();
 
+const {exec} = require("child_process");
+
+const child = exec("psql --version");
+
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public'), {
     setHeaders: (res, path) => {
@@ -274,9 +278,25 @@ io.on('connection', (socket) => {
 
 const PORT = process.env.PORT || 8080;
 
-// Initialize Database then start server
-db.connect().then(() => {
-    server.listen(PORT, () => {
-        console.log(`Server listening on port ${PORT}`);
+// check if pos gres is available
+
+child.on("exit",(code)=>{
+    
+    if(code === 0){
+            console.log("Postgres found. Starting postgres");
+    db.connect().then(() => {
+            server.listen(PORT, () => {
+                console.log(`Server listening on port ${PORT}, at http://localhost:${PORT}`);
+            });
+        });
+    }
+    else {
+        console.log("Postgres not found. Skipping...");
+
+        server.listen(PORT, () => {
+        console.log(`Server listening on port ${PORT}, at http://localhost:${PORT}`);
     });
+}
+
 });
+
